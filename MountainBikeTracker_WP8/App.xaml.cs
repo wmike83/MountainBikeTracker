@@ -12,6 +12,20 @@ namespace MountainBikeTracker_WP8
 {
     public partial class App : Application
     {
+        // Store current ride as singleton
+        private static ViewModels.CurrentRideViewModel _currentRideViewModel = null;
+        // Property for current ride as singleton
+        public static ViewModels.CurrentRideViewModel CurrentRideViewModel
+        {
+            get
+            {
+                if (_currentRideViewModel == null)
+                    _currentRideViewModel = new ViewModels.CurrentRideViewModel();
+
+                return _currentRideViewModel;
+            }
+        }
+
         /// <summary>
         /// Provides easy access to the root frame of the Phone Application.
         /// </summary>

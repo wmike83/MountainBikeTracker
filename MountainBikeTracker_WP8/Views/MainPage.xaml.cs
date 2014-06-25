@@ -3,6 +3,7 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using System.IO.IsolatedStorage;
 using Windows.Devices.Geolocation;
+using System;
 
 namespace MountainBikeTracker_WP8.Views
 {
@@ -101,6 +102,16 @@ namespace MountainBikeTracker_WP8.Views
         {
             SystemTray.ProgressIndicator.IsIndeterminate = isVisible;
             SystemTray.ProgressIndicator.IsVisible = isVisible;
+        }
+
+        private void btnStartNewRide_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Views/CurrentRidePage.xaml", UriKind.Relative));
+        }
+        private void btnViewHistory_Click(object sender, RoutedEventArgs e)
+        {
+            if (btnStartNewRide.IsEnabled)
+                NavigationService.Navigate(new Uri("/Views/HistoryPage.xaml", UriKind.Relative));
         }
     }
 }
