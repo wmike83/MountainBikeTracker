@@ -61,29 +61,29 @@ namespace MountainBikeTracker_WP8.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to add.
-        /// </summary>
-        public static string AppBarButtonText {
-            get {
-                return ResourceManager.GetString("AppBarButtonText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Menu Item.
-        /// </summary>
-        public static string AppBarMenuItemText {
-            get {
-                return ResourceManager.GetString("AppBarMenuItemText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Mountian Bike Tracker.
         /// </summary>
         public static string ApplicationTitle {
             get {
                 return ResourceManager.GetString("ApplicationTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to delete.
+        /// </summary>
+        public static string DeleteAppBarButtonText {
+            get {
+                return ResourceManager.GetString("DeleteAppBarButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to pause.
+        /// </summary>
+        public static string PauseAppBarButtonText {
+            get {
+                return ResourceManager.GetString("PauseAppBarButtonText", resourceCulture);
             }
         }
         
@@ -106,11 +106,38 @@ namespace MountainBikeTracker_WP8.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to save.
+        /// </summary>
+        public static string SaveAppBarMenuItemText {
+            get {
+                return ResourceManager.GetString("SaveAppBarMenuItemText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to start.
+        /// </summary>
+        public static string StartAppBarButtonText {
+            get {
+                return ResourceManager.GetString("StartAppBarButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Start New Ride.
         /// </summary>
         public static string StartNewRideButtonText {
             get {
                 return ResourceManager.GetString("StartNewRideButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to stop.
+        /// </summary>
+        public static string StopAppBarButtonText {
+            get {
+                return ResourceManager.GetString("StopAppBarButtonText", resourceCulture);
             }
         }
         

@@ -128,16 +128,25 @@
   <data name="ApplicationTitle" xml:space="preserve">
     <value>Mountian Bike Tracker</value>
   </data>
-  <data name="AppBarButtonText" xml:space="preserve">
-    <value>add</value>
+  <data name="DeleteAppBarButtonText" xml:space="preserve">
+    <value>delete</value>
   </data>
-  <data name="AppBarMenuItemText" xml:space="preserve">
-    <value>Menu Item</value>
+  <data name="PauseAppBarButtonText" xml:space="preserve">
+    <value>pause</value>
   </data>
   <data name="StartNewRideButtonText" xml:space="preserve">
     <value>Start New Ride</value>
   </data>
   <data name="ViewHistoryButtonText" xml:space="preserve">
     <value>View History</value>
+  </data>
+  <data name="SaveAppBarMenuItemText" xml:space="preserve">
+    <value>save</value>
+  </data>
+  <data name="StartAppBarButtonText" xml:space="preserve">
+    <value>start</value>
+  </data>
+  <data name="StopAppBarButtonText" xml:space="preserve">
+    <value>stop</value>
   </data>
 </root>

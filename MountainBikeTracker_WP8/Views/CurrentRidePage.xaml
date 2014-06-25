@@ -17,9 +17,9 @@
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="True">
 
-    <phone:PhoneApplicationPage.DataContext>
+    <!--<phone:PhoneApplicationPage.DataContext>
         <viewModels:CurrentRideViewModel />
-    </phone:PhoneApplicationPage.DataContext>
+    </phone:PhoneApplicationPage.DataContext>-->
 
     <phone:PhoneApplicationPage.Resources>
         <converters:CurrentSpeedToForegroundConverter x:Key="CurrentSpeedToForegroundConverter" />
@@ -113,39 +113,6 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-
-            <!-- users -->
-            <StackPanel Grid.Row="0"
-                        Margin="6,6,6,6">
-                <ListBox x:Name="lstActiveRiders"
-                         ItemsSource="{Binding ActiveRiders}">
-                    <ListBox.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <VirtualizingStackPanel Orientation="Horizontal" />
-                        </ItemsPanelTemplate>
-                    </ListBox.ItemsPanel>
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <Border Margin="6"
-                                    Background="{Binding Path=Value.RiderColor}"
-                                    Height="110"
-                                    Width="110">
-                                <StackPanel>
-                                    <TextBlock Text="{Binding Path=Key}"
-                                               Foreground="White"
-                                               Style="{StaticResource PhoneTextNormalStyle}" />
-                                    <TextBlock Text="{Binding Path=Value.CurrentSpeed,
-                                                              FallbackValue=0.0,
-                                                              StringFormat=\{0:F1\}}"
-                                               Foreground="White"
-                                               Style="{StaticResource PhoneTextExtraLargeStyle}" />
-
-                                </StackPanel>
-                            </Border>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </StackPanel>
 
             <!--ContentPanel - place additional content here-->
             <Grid x:Name="ContentPanel"
