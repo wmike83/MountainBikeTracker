@@ -1,0 +1,228 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="MountainBikeTracker_WP8.Views.CurrentRidePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="clr-namespace:MountainBikeTracker_WP8.ViewModels"
+    xmlns:converters="clr-namespace:MountainBikeTracker_WP8.Helpers.Converters"
+    xmlns:maps="clr-namespace:Microsoft.Phone.Maps.Controls;assembly=Microsoft.Phone.Maps"
+    xmlns:maptk="clr-namespace:Microsoft.Phone.Maps.Toolkit;assembly=Microsoft.Phone.Controls.Toolkit"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    mc:Ignorable="d"
+    shell:SystemTray.IsVisible="True">
+
+    <phone:PhoneApplicationPage.DataContext>
+        <viewModels:CurrentRideViewModel />
+    </phone:PhoneApplicationPage.DataContext>
+
+    <phone:PhoneApplicationPage.Resources>
+        <converters:CurrentSpeedToForegroundConverter x:Key="CurrentSpeedToForegroundConverter" />
+
+        <Style x:Name="Views" TargetType="Grid">
+            <Setter Property="Visibility" Value="Visible" />
+        </Style>
+    </phone:PhoneApplicationPage.Resources>
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot"
+          Background="Transparent">
+        <!--Simple Ride View-->
+        <Grid x:Name="SimpleView"
+              Visibility="Visible"
+              ManipulationDelta="SimpleView_ManipulationDelta"
+              >
+            <!--Add a swipe gesture to move to map view to above grid-->
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <StackPanel x:Name="stkCurrentSpeedData"
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        Tap="stkCurrentSpeed_Tap"
+                        Grid.Row="0">
+                <TextBlock x:Name="tblCurrentSpeed"
+                           Text="{Binding CurrentSpeed,
+                                          FallbackValue=0.0,
+                                          StringFormat=\{0:F1\}}"
+                           FontSize="200"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Center"
+                           Foreground="{Binding CurrentSpeed,
+                                                Converter={StaticResource CurrentSpeedToForegroundConverter},
+                                                Mode=OneWay}" />
+
+                <TextBlock Text="mph"
+                           VerticalAlignment="Bottom"
+                           HorizontalAlignment="Right"
+                           FontSize="44" />
+            </StackPanel>
+            <StackPanel x:Name="stkCurrentRideData"
+                        Grid.Row="1">
+                <TextBlock x:Name="tblDistance"
+                           Text="{Binding CurrentTrail.Distance,
+                                          FallbackValue=0.00,
+                                          Mode=OneWay,
+                                          StringFormat=\{0:F\}}"
+                           FontSize="100"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Bottom"
+                           Margin="0,0,0,-16" />
+
+                <TextBlock Text="Distance"
+                           HorizontalAlignment="Right" />
+
+                <TextBlock x:Name="tblDuration"
+                           Text="{Binding CurrentTrail.Duration,
+                                          FallbackValue=00:00:00,
+                                          Mode=OneWay,
+                                          StringFormat=\{0:hh\\:mm\\:ss\}}"
+                           FontSize="75"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Bottom"
+                           Margin="0,0,0,-10" />
+
+                <TextBlock Text="Duration"
+                           HorizontalAlignment="Right" />
+
+                <TextBlock x:Name="tblAverageSpeed"
+                           Text="{Binding CurrentTrail.AverageSpeed,
+                                          FallbackValue=0.00,
+                                          Mode=OneWay,
+                                          StringFormat=\{0:F\}}"
+                           FontSize="75"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Bottom"
+                           Margin="0,0,0,-10" />
+
+                <TextBlock Text="Average"
+                           HorizontalAlignment="Right" />
+            </StackPanel>
+        </Grid>
+
+        <!--Map Ride View-->
+        <Grid x:Name="MapView"
+              Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!-- users -->
+            <StackPanel Grid.Row="0"
+                        Margin="6,6,6,6">
+                <ListBox x:Name="lstActiveRiders"
+                         ItemsSource="{Binding ActiveRiders}">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border Margin="6"
+                                    Background="{Binding Path=Value.RiderColor}"
+                                    Height="110"
+                                    Width="110">
+                                <StackPanel>
+                                    <TextBlock Text="{Binding Path=Key}"
+                                               Foreground="White"
+                                               Style="{StaticResource PhoneTextNormalStyle}" />
+                                    <TextBlock Text="{Binding Path=Value.CurrentSpeed,
+                                                              FallbackValue=0.0,
+                                                              StringFormat=\{0:F1\}}"
+                                               Foreground="White"
+                                               Style="{StaticResource PhoneTextExtraLargeStyle}" />
+
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+
+            <!--ContentPanel - place additional content here-->
+            <Grid x:Name="ContentPanel"
+                  Grid.Row="1"
+                  Margin="12,0,12,0">
+
+                <Grid x:Name="grdMapCurrentRide" />
+
+                <!-- run statistics -->
+                <Grid Background="#99000000"
+                      Margin="20"
+                      VerticalAlignment="Bottom"
+                      Tap="grdMapStatistics_Tap">
+                    <Grid Margin="12">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40" />
+                            <RowDefinition Height="40" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <!-- distance -->
+                        <TextBlock Text="Speed:"
+                                   Style="{StaticResource PhoneTextNormalStyle}" />
+                        <TextBlock Text="{Binding CurrentSpeed,
+                                              FallbackValue=00.0,
+                                              StringFormat=\{0:F1\}}"
+                                   Grid.Column="1"
+                                   HorizontalAlignment="Center"
+                                   Foreground="{Binding CurrentSpeed,
+                                                        Converter={StaticResource CurrentSpeedToForegroundConverter},
+                                                        Mode=OneWay}"
+                                   Style="{StaticResource PhoneTextLargeStyle}" />
+
+                        <!-- time -->
+                        <TextBlock Text="Time:"
+                                   Grid.Column="2"
+                                   Style="{StaticResource PhoneTextNormalStyle}" />
+                        <TextBlock Text="{Binding CurrentTrail.Duration, FallbackValue=00:00:00, Mode=OneWay, StringFormat=\{0:hh\\:mm\\:ss\}}"
+                                   Grid.Column="3"
+                                   HorizontalAlignment="Center"
+                                   Style="{StaticResource PhoneTextLargeStyle}" />
+
+                        <!-- calories -->
+                        <TextBlock Text="Dist:"
+                                   Grid.Row="1"
+                                   Style="{StaticResource PhoneTextNormalStyle}" />
+                        <TextBlock Text="{Binding CurrentTrail.Distance,
+                                                  FallbackValue=0.00,
+                                                  Mode=OneWay,
+                                                  StringFormat=\{0:F\}}"
+                                   Grid.Column="1"
+                                   HorizontalAlignment="Center"
+                                   Grid.Row="1"
+                                   Style="{StaticResource PhoneTextLargeStyle}" />
+
+                        <!-- pace -->
+                        <TextBlock Text="Alt:"
+                                   Grid.Column="2"
+                                   Grid.Row="1"
+                                   Style="{StaticResource PhoneTextNormalStyle}" />
+                        <TextBlock Text="{Binding Altitude,
+                                                  FallbackValue=0.00,
+                                                  StringFormat=\{0:F\}}"
+                                   Grid.Column="3"
+                                   HorizontalAlignment="Center"
+                                   Grid.Row="1"
+                                   Style="{StaticResource PhoneTextLargeStyle}" />
+
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+
+</phone:PhoneApplicationPage>
