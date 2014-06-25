@@ -32,7 +32,7 @@ namespace MountainBikeTracker_WP8.Services
         {
             if (HasStarted() && this.IsListening)
             {
-                this._locator.PositionChanged -= this._locator_PositionChanged;
+                //this._locator.PositionChanged -= this._locator_PositionChanged;
                 this.IsListening = false;
             }
         }

@@ -67,7 +67,7 @@ namespace MountainBikeTracker_WP8.ViewModels
         /// </summary>
         public void StopListening()
         {
-            Services.ServiceLocator.GeolocatorService.OnPositionChanged += App.CurrentRideViewModel.OnPositionChanged;
+            Services.ServiceLocator.GeolocatorService.OnPositionChanged -= App.CurrentRideViewModel.OnPositionChanged;
         }
         #endregion
 
@@ -96,6 +96,7 @@ namespace MountainBikeTracker_WP8.ViewModels
         public void ResetTrail()
         {
             App.CurrentRideViewModel.CurrentTrail.Reset();
+            this.OnPropertyChanged("Points");
         }
         #endregion
 
@@ -107,11 +108,14 @@ namespace MountainBikeTracker_WP8.ViewModels
         /// <param name="e"></param>
         void CurrentTrail_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            GeoCoordinate geoPoint = this.CurrentTrail.Points.Last();
-            App.CurrentRideViewModel.CurrentLocation = geoPoint;
-            App.CurrentRideViewModel.CurrentSpeed = MountainBikeTrail.ConvertMetersPerSecondToMilesPerHour(geoPoint.Speed);
-            App.CurrentRideViewModel.Altitude = MountainBikeTrail.ConvertMetersToFeet(geoPoint.Altitude);
-            this.OnPropertyChanged("CurrentTrail");
+            if (e.PropertyName == "CurrentTrail")
+            {
+                GeoCoordinate geoPoint = this.CurrentTrail.Points.Last();
+                App.CurrentRideViewModel.CurrentLocation = geoPoint;
+                App.CurrentRideViewModel.CurrentSpeed = MountainBikeTrail.ConvertMetersPerSecondToMilesPerHour(geoPoint.Speed);
+                App.CurrentRideViewModel.Altitude = MountainBikeTrail.ConvertMetersToFeet(geoPoint.Altitude);
+                base.OnPropertyChanged(e.PropertyName);
+            }
         }
         /// <summary>
         /// This is used for when looking at the map and not recording

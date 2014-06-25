@@ -119,7 +119,18 @@
                   Grid.Row="1"
                   Margin="12,0,12,0">
 
-                <Grid x:Name="grdMapCurrentRide" />
+                <Grid x:Name="grdMapCurrentRide">
+                    <maps:Map x:Name="mapCurrentRide"
+                              CartographicMode="Terrain"
+                              PedestrianFeaturesEnabled="True"
+                              LandmarksEnabled="True">
+                        <maptk:MapExtensions.Children>
+                            <maptk:MapItemsControl Name="mapItems">
+                                <maptk:UserLocationMarker GeoCoordinate="{Binding CurrentLocation}" />
+                            </maptk:MapItemsControl>
+                        </maptk:MapExtensions.Children>
+                    </maps:Map>
+                </Grid>
 
                 <!-- run statistics -->
                 <Grid Background="#99000000"

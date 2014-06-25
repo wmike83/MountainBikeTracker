@@ -12,6 +12,7 @@ using MountainBikeTracker_WP8.Models;
 using MountainBikeTracker_WP8.Resources;
 using MountainBikeTracker_WP8.Helpers;
 using Windows.Devices.Geolocation;
+using System.Windows.Data;
 
 namespace MountainBikeTracker_WP8.Views
 {
@@ -22,10 +23,7 @@ namespace MountainBikeTracker_WP8.Views
         private ApplicationBarIconButton stopDeleteAppBarButton;
         private ApplicationBarMenuItem saveAppBarMenuItem;
 
-        private Map mapCurrentRide = null;
-        private MapOverlay mapCurrentRideOverlay = null;
         private MapPolyline mapCurrentRidePolyline = null;
-        private List<MapOverlay> riderLayers = new List<MapOverlay>();
         #endregion
 
         #region Constructor
@@ -39,9 +37,6 @@ namespace MountainBikeTracker_WP8.Views
 
             this.BuildLocalizedApplicationBar();
 
-            // Listen for GPS to be ready
-            Services.ServiceLocator.GeolocatorService.OnStatusChanged += this.OnStatusChanged;
-
             // Setting all the binding objects
             this.DataContext = App.CurrentRideViewModel;
 
@@ -50,31 +45,10 @@ namespace MountainBikeTracker_WP8.Views
         }
         #endregion
 
-        #region GPS Events
-        private void OnStatusChanged(PositionStatus status)
-        {
-            if (status == PositionStatus.Ready)
-            {
-                this.SetMapCenter(MountainBikeTrail.CreateGeoCoordinate(Services.ServiceLocator.GeolocatorService.LastPoint));
-                // GPS ready so allow ride
-                Services.ServiceLocator.GeolocatorService.OnStatusChanged -= this.OnStatusChanged;
-            }
-        }
-        #endregion
-
         #region Map Stuff
         private void SetupMap()
         {
-            this.mapCurrentRide = new Map();
-            this.mapCurrentRide.CartographicMode = MapCartographicMode.Terrain;
-            this.mapCurrentRide.PedestrianFeaturesEnabled = true;
-            this.mapCurrentRide.LandmarksEnabled = true;
-
-            this.SetupMapCurrentLocationLayer();
-
             this.SetupMapCurrentRideLayer();
-
-            this.grdMapCurrentRide.Children.Add(this.mapCurrentRide);
         }
         private void SetupMapCurrentRideLayer()
         {
@@ -85,46 +59,13 @@ namespace MountainBikeTracker_WP8.Views
 
             this.mapCurrentRide.MapElements.Add(this.mapCurrentRidePolyline);
         }
-        private void SetupMapCurrentLocationLayer()
-        {
-            Ellipse ellMapCurrentLocation = new Ellipse();
-            ellMapCurrentLocation.Fill = new SolidColorBrush(Colors.Magenta);
-            ellMapCurrentLocation.Height = 10;
-            ellMapCurrentLocation.Width = 10;
-            ellMapCurrentLocation.Opacity = 65;
-
-            this.mapCurrentRideOverlay = new MapOverlay();
-            this.mapCurrentRideOverlay.Content = ellMapCurrentLocation;
-            this.mapCurrentRideOverlay.PositionOrigin = new Point(0.5, 0.5);
-            this.mapCurrentRideOverlay.GeoCoordinate = App.CurrentRideViewModel.CurrentLocation;
-
-            MapLayer mapCurrentLayer = new MapLayer();
-            mapCurrentLayer.Add(this.mapCurrentRideOverlay);
-
-            this.mapCurrentRide.Layers.Add(mapCurrentLayer);
-        }
-        private void SetMapCenter(GeoCoordinate geoPoint)
+        private void SetMapCenter(GeoCoordinate geoCoord)
         {
             this.mapCurrentRide.Dispatcher.BeginInvoke(() =>
             {
-                this.mapCurrentRide.SetView(geoPoint,
+                this.mapCurrentRide.SetView(geoCoord,
                                             15,
                                             MapAnimationKind.Parabolic);
-            });
-        }
-        private void UpdateCurrentPosition(GeoCoordinate geoPoint)
-        {
-            this.mapCurrentRide.Dispatcher.BeginInvoke(() =>
-            {
-                this.mapCurrentRideOverlay.GeoCoordinate = geoPoint;
-            });
-        }
-        private void UpdateCurrentLayer()
-        {
-            this.mapCurrentRide.Dispatcher.BeginInvoke(() =>
-            {
-                this.mapCurrentRide.SetView(this.mapCurrentRide.Center,
-                                            this.mapCurrentRide.ZoomLevel);
             });
         }
         #endregion
@@ -140,14 +81,10 @@ namespace MountainBikeTracker_WP8.Views
             {
                 this.PauseGeolocatorAndUpdateAppBar();
             }
+                this.SetCurrentListener();
         }
         private void StartGeolocatorAndUpdateAppBar()
         {
-            if (this.MapView.Visibility == Visibility.Visible)
-            {
-                App.CurrentRideViewModel.StopListening();
-            }
-
             ApplicationBarHelper.UpdateAppBarIconButton(this.startPauseAppBarButton,
                                                         "/Assets/AppBar/appbar.transport.pause.rest.png",
                                                         AppResources.PauseAppBarButtonText);
@@ -158,11 +95,6 @@ namespace MountainBikeTracker_WP8.Views
         }
         private void PauseGeolocatorAndUpdateAppBar()
         {
-            if (this.MapView.Visibility == Visibility.Visible)
-            {
-                App.CurrentRideViewModel.StartListening();
-            }
-
             ApplicationBarHelper.UpdateAppBarIconButton(this.startPauseAppBarButton,
                                                         "/Assets/AppBar/appbar.transport.play.rest.png",
                                                         AppResources.StartAppBarButtonText);
@@ -210,7 +142,6 @@ namespace MountainBikeTracker_WP8.Views
                                                         AppResources.StartAppBarButtonText);
 
             App.CurrentRideViewModel.ResetTrail();
-            this.UpdateCurrentLayer();
         }
         private void startPauseAppBarButton_Click(object sender, EventArgs e)
         {
@@ -239,8 +170,6 @@ namespace MountainBikeTracker_WP8.Views
         #region Navigation Overrides
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            this.SetMapCenter(MountainBikeTrail.CreateGeoCoordinate(Services.ServiceLocator.GeolocatorService.LastPoint));
-            this.UpdateCurrentPosition(Models.MountainBikeTrail.CreateGeoCoordinate(Services.ServiceLocator.GeolocatorService.LastPoint));
             base.OnNavigatedTo(e);
         }
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
@@ -259,6 +188,7 @@ namespace MountainBikeTracker_WP8.Views
             // Make simple view show
             this.SimpleView.Visibility = Visibility.Visible;
             this.MapView.Visibility = Visibility.Collapsed;
+            this.SetCurrentListener();
         }
 
         private Point _initialPoint;
@@ -276,7 +206,26 @@ namespace MountainBikeTracker_WP8.Views
                 {
                     this.SimpleView.Visibility = Visibility.Collapsed;
                     this.MapView.Visibility = Visibility.Visible;
+                    this.SetMapCenter(MountainBikeTrail.CreateGeoCoordinate(Services.ServiceLocator.GeolocatorService.LastPoint));
+                    this.SetCurrentListener();
                     e.Complete();
+                }
+            }
+        }
+        #endregion
+
+        #region Helper Methods
+        private void SetCurrentListener()
+        {
+            if (this.startPauseAppBarButton.Text == AppResources.StartAppBarButtonText)
+            {
+                if (this.MapView.Visibility == Visibility.Visible)
+                {
+                    App.CurrentRideViewModel.StartListening();
+                }
+                else
+                {
+                    App.CurrentRideViewModel.StopListening();
                 }
             }
         }
