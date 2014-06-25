@@ -111,6 +111,7 @@ namespace MountainBikeTracker_WP8.ViewModels
             App.CurrentRideViewModel.CurrentLocation = geoPoint;
             App.CurrentRideViewModel.CurrentSpeed = MountainBikeTrail.ConvertMetersPerSecondToMilesPerHour(geoPoint.Speed);
             App.CurrentRideViewModel.Altitude = MountainBikeTrail.ConvertMetersToFeet(geoPoint.Altitude);
+            this.OnPropertyChanged("CurrentTrail");
         }
         /// <summary>
         /// This is used for when looking at the map and not recording

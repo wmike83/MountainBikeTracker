@@ -150,7 +150,7 @@ namespace MountainBikeTracker_WP8.Models
             // Update the timestamps
             this.TimeStamps.Add(new DateTime(obj.Timestamp.LocalDateTime.Ticks));
 
-            this.OnPropertyChanged( "MountainBikeTrail" );
+            this.OnPropertyChanged( "CurrentTrail" );
         }
         #endregion
 

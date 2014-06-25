@@ -37,6 +37,8 @@ namespace MountainBikeTracker_WP8.Views
             PhoneApplicationService phoneServices = PhoneApplicationService.Current;
             phoneServices.UserIdleDetectionMode = IdleDetectionMode.Disabled;
 
+            this.BuildLocalizedApplicationBar();
+
             // Listen for GPS to be ready
             Services.ServiceLocator.GeolocatorService.OnStatusChanged += this.OnStatusChanged;
 
@@ -237,14 +239,12 @@ namespace MountainBikeTracker_WP8.Views
         #region Navigation Overrides
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            App.CurrentRideViewModel.StartListening();
             this.SetMapCenter(MountainBikeTrail.CreateGeoCoordinate(Services.ServiceLocator.GeolocatorService.LastPoint));
             this.UpdateCurrentPosition(Models.MountainBikeTrail.CreateGeoCoordinate(Services.ServiceLocator.GeolocatorService.LastPoint));
             base.OnNavigatedTo(e);
         }
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
-            App.CurrentRideViewModel.StopListening();
             base.OnNavigatingFrom(e);
         }
         #endregion

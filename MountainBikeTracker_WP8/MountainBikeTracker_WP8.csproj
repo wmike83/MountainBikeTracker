@@ -135,6 +135,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\AppBar\appbar.delete.rest.png" />
+    <Content Include="Assets\AppBar\appbar.stop.rest.png" />
+    <Content Include="Assets\AppBar\appbar.transport.pause.rest.png" />
+    <Content Include="Assets\AppBar\appbar.transport.play.rest.png" />
     <Content Include="Assets\ApplicationIcon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
