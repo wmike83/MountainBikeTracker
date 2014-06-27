@@ -98,9 +98,11 @@
     <Compile Include="Helpers\Converters\CurrentSpeedToForegroundConverter.cs" />
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="Models\MountainBikeTrail.cs" />
+    <Compile Include="Models\TrailInformation.cs" />
     <Compile Include="Services\GeolocatorService.cs" />
     <Compile Include="Services\ServiceLocator.cs" />
     <Compile Include="ViewModels\CurrentRideViewModel.cs" />
+    <Compile Include="ViewModels\SaveCurrentRideViewModel.cs" />
     <Compile Include="Views\CurrentRidePage.xaml.cs">
       <DependentUpon>CurrentRidePage.xaml</DependentUpon>
     </Compile>

@@ -11,12 +11,26 @@ namespace MountainBikeTracker_WP8.Services
     {
         #region Fields
         private Geolocator _locator;
+        private Geoposition _lastPosition;
         #endregion
 
         #region Properties
         public Action<Geocoordinate> OnPositionChanged { get; set; }
         public Action<PositionStatus> OnStatusChanged { get; set; }
-        public Geocoordinate LastPoint { get; private set; }
+        public Geocoordinate LastPoint
+        {
+            get
+            {
+                return this._lastPosition.Coordinate;
+            }
+        }
+        public string LastCity
+        {
+            get
+            {
+                return "";
+            }
+        }
         #endregion
 
         #region Constructor
@@ -28,7 +42,7 @@ namespace MountainBikeTracker_WP8.Services
         #region Helper Methods
         public void Pause()
         {
-            if( HasStarted() )
+            if (HasStarted())
             {
                 this._locator.PositionChanged -= this._locator_PositionChanged;
             }
@@ -59,7 +73,7 @@ namespace MountainBikeTracker_WP8.Services
         #region Events
         private void _locator_PositionChanged(Geolocator sender, PositionChangedEventArgs args)
         {
-            this.LastPoint = args.Position.Coordinate;
+            this._lastPosition = args.Position;
             if (this.OnPositionChanged != null)
             {
                 this.OnPositionChanged(args.Position.Coordinate);
@@ -68,8 +82,23 @@ namespace MountainBikeTracker_WP8.Services
         private async void _locator_StatusChanged(Geolocator sender, StatusChangedEventArgs args)
         {
             if (args.Status == PositionStatus.Ready)
-                this.LastPoint = (await this._locator.GetGeopositionAsync()).Coordinate;
+            {
+                this._lastPosition = await this._locator.GetGeopositionAsync();
 
+                //// Windows phone 8.1 code only
+                //// reverse geocoding
+                //BasicGeoposition myLocation = new BasicGeoposition
+                //{
+                //    Longitude = this._lastPosition.Coordinate.Longitude,
+                //    Latitude = this._lastPosition.Coordinate.Latitude
+                //};
+                //Geopoint pointToReverseGeocode = new Geopoint(myLocation);
+
+                //MapLocationFinderResult result = await MapLocationFinder.FindLocationsAtAsync(pointToReverseGeocode);
+
+                //// here also it should be checked if there result isn't null and what to do in such a case
+                //string city = result.Locations[0].Address.Country;
+            }
             if (this.OnStatusChanged != null)
             {
                 this.OnStatusChanged(args.Status);

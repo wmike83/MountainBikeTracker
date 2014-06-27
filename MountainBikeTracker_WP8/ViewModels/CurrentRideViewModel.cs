@@ -80,6 +80,7 @@ namespace MountainBikeTracker_WP8.ViewModels
         {
             App.CurrentRideViewModel.CurrentTrail.Start();
             App.CurrentRideViewModel.CurrentTrail.PropertyChanged += App.CurrentRideViewModel.CurrentTrail_PropertyChanged;
+            App.CurrentRideViewModel.StopListening();
         }
         /// <summary>
         /// Pause recording
@@ -89,6 +90,7 @@ namespace MountainBikeTracker_WP8.ViewModels
         {
             App.CurrentRideViewModel.CurrentTrail.Pause();
             App.CurrentRideViewModel.CurrentTrail.PropertyChanged -= App.CurrentRideViewModel.CurrentTrail_PropertyChanged;
+            App.CurrentRideViewModel.StartListening();
         }
         /// <summary>
         /// Reset trail
@@ -120,13 +122,15 @@ namespace MountainBikeTracker_WP8.ViewModels
             }
         }
         /// <summary>
-        /// This is used for when looking at the map and not recording
+        /// This is used for when looking at the app and not recording
         /// </summary>
         /// <param name="obj"></param>
         private void OnPositionChanged(Windows.Devices.Geolocation.Geocoordinate obj)
         {
             GeoCoordinate geoPoint = Models.MountainBikeTrail.CreateGeoCoordinate(obj);
             App.CurrentRideViewModel.CurrentLocation = geoPoint;
+            App.CurrentRideViewModel.CurrentSpeed = MountainBikeTrail.ConvertMetersPerSecondToMilesPerHour(geoPoint.Speed);
+            App.CurrentRideViewModel.Altitude = MountainBikeTrail.ConvertMetersToFeet(geoPoint.Altitude);
         }
         #endregion
     }

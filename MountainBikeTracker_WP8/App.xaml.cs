@@ -26,6 +26,17 @@ namespace MountainBikeTracker_WP8
             }
         }
 
+        private static ViewModels.SaveCurrentRideViewModel _saveCurrentRideViewModel = null;
+        public static ViewModels.SaveCurrentRideViewModel SaveCurrentRideViewModel
+        {
+            get
+            {
+                if (_saveCurrentRideViewModel == null)
+                    _saveCurrentRideViewModel = new ViewModels.SaveCurrentRideViewModel();
+
+                return _saveCurrentRideViewModel;
+            }
+        }
         /// <summary>
         /// Provides easy access to the root frame of the Phone Application.
         /// </summary>

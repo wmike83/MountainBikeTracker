@@ -6,6 +6,7 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
@@ -16,14 +17,65 @@
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <!--Pivot Control-->
-        <phone:Pivot Title="MY APPLICATION">
+        <phone:Pivot Title="SAVE">
             <!--Pivot item one-->
-            <phone:PivotItem Header="item1">
-                <Grid/>
+            <phone:PivotItem Header="info">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    
+                    <TextBlock x:Name="tblCity"
+                               Text="City"
+                               Grid.Column="0"
+                               Grid.Row="0" />
+                    <TextBox x:Name="txtCity"
+                             Text="{Binding TrailInfo.City}"
+                             Grid.Column="1"
+                             Grid.Row="0" />
+                    <TextBlock x:Name="tblForest"
+                               Text="Forest"
+                               Grid.Column="0"
+                               Grid.Row="1" />
+                    <TextBox x:Name="txtForest"
+                             Text="{Binding TrailInfo.Forest}"
+                             Grid.Column="1"
+                             Grid.Row="1" />
+                    <TextBlock x:Name="tblDate"
+                               Text="Date"
+                               Grid.Column="0"
+                               Grid.Row="2" />
+                    <toolkit:DatePicker x:Name="dtpDate"
+                                        Value="{Binding TrailInfo.Date}"
+                                        Grid.Column="1"
+                                        Grid.Row="2" />
+                    <Grid Grid.Column="0"
+                          Grid.Row="3"
+                          Grid.ColumnSpan="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        
+                        <Button x:Name="btnSave"
+                                Content="save"
+                                Grid.Column="0" />
+                        <Button x:Name="btnCancel"
+                                Content="cancel"
+                                Grid.Column="1" />
+                    </Grid>
+                </Grid>
             </phone:PivotItem>
 
             <!--Pivot item two-->
-            <phone:PivotItem Header="item2">
+            <phone:PivotItem Header="stats">
                 <Grid/>
             </phone:PivotItem>
         </phone:Pivot>

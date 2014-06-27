@@ -15,6 +15,8 @@ namespace MountainBikeTracker_WP8.Views
         public SaveCurrentRidePage()
         {
             InitializeComponent();
+
+            this.DataContext = App.SaveCurrentRideViewModel;
         }
     }
 }
