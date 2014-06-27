@@ -93,7 +93,6 @@ namespace MountainBikeTracker_WP8.Models
         public void Start()
         {
             // Start Geolocator and registering to event Position Changed
-            Services.ServiceLocator.GeolocatorService.Start();
             Services.ServiceLocator.GeolocatorService.OnPositionChanged = this.OnPositionChanged + Services.ServiceLocator.GeolocatorService.OnPositionChanged;
 
             // Started new Tracking
@@ -112,7 +111,6 @@ namespace MountainBikeTracker_WP8.Models
         public void Pause()
         {
             // Pausing Geolocator and unregistering to event Position Changed
-            Services.ServiceLocator.GeolocatorService.Pause();
             Services.ServiceLocator.GeolocatorService.OnPositionChanged -= this.OnPositionChanged;
         }
         #endregion
@@ -126,7 +124,7 @@ namespace MountainBikeTracker_WP8.Models
 
             // Update the new distance
             double distance = MountainBikeTrail.ConvertMetersToMiles(lastPoint.GetDistanceTo(newPoint));
-            //double distance = CalculateDistance(lastPoint, newPoint);
+            //double distance = MountainBikeTrail.CalculateDistance(lastPoint, newPoint);
 
             this.Distance += distance;
 

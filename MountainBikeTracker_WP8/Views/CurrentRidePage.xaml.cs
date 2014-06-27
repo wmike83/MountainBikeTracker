@@ -173,10 +173,12 @@ namespace MountainBikeTracker_WP8.Views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+            Services.ServiceLocator.GeolocatorService.Start();
         }
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             base.OnNavigatingFrom(e);
+            Services.ServiceLocator.GeolocatorService.Pause();
         }
         #endregion
 

@@ -17,19 +17,21 @@ namespace MountainBikeTracker_WP8.Services
         public Action<Geocoordinate> OnPositionChanged { get; set; }
         public Action<PositionStatus> OnStatusChanged { get; set; }
         public Geocoordinate LastPoint { get; private set; }
-        private bool IsListening { get; set; }
         #endregion
 
         #region Constructor
         public GeolocatorService()
         {
-            IsListening = false;
         }
         #endregion
 
         #region Helper Methods
         public void Pause()
         {
+            if( HasStarted() )
+            {
+                this._locator.PositionChanged -= this._locator_PositionChanged;
+            }
         }
 
         public void Start()
