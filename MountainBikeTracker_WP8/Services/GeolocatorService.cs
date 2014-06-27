@@ -30,20 +30,12 @@ namespace MountainBikeTracker_WP8.Services
         #region Helper Methods
         public void Pause()
         {
-            if (HasStarted() && this.IsListening)
-            {
-                //this._locator.PositionChanged -= this._locator_PositionChanged;
-                this.IsListening = false;
-            }
         }
 
         public void Start()
         {
-            if (HasStarted() && !this.IsListening)
-            {
+            if (HasStarted())
                 this._locator.PositionChanged += this._locator_PositionChanged;
-                this.IsListening = true;
-            }
         }
         public bool HasStarted()
         {

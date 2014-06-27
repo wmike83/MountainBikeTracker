@@ -64,7 +64,7 @@ namespace MountainBikeTracker_WP8.Views
             this.mapCurrentRide.Dispatcher.BeginInvoke(() =>
             {
                 this.mapCurrentRide.SetView(geoCoord,
-                                            15,
+                                            this.mapCurrentRide.ZoomLevel,
                                             MapAnimationKind.Parabolic);
             });
         }
@@ -142,6 +142,8 @@ namespace MountainBikeTracker_WP8.Views
                                                         AppResources.StartAppBarButtonText);
 
             App.CurrentRideViewModel.ResetTrail();
+            this.SetMapCenter(MountainBikeTrail.CreateGeoCoordinate(Services.ServiceLocator.GeolocatorService.LastPoint));
+
         }
         private void startPauseAppBarButton_Click(object sender, EventArgs e)
         {

@@ -96,7 +96,9 @@ namespace MountainBikeTracker_WP8.ViewModels
         public void ResetTrail()
         {
             App.CurrentRideViewModel.CurrentTrail.Reset();
+            this.OnPropertyChanged("CurrentTrail");
             this.OnPropertyChanged("Points");
+            
         }
         #endregion
 
