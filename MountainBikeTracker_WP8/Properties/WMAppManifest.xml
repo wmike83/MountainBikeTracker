@@ -4,9 +4,6 @@
   <App xmlns="" ProductID="{5166d16f-4071-43d7-8e0d-62b64cdf4625}" Title="MountainBikeTracker_WP8" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="MountainBikeTracker_WP8 author" Description="Sample description" Publisher="MountainBikeTracker_WP8" PublisherID="{9cc69582-7cf2-41cc-a4fd-9af04d4d3b1c}">
     <IconPath IsRelative="true" IsResource="false">Assets\ApplicationIcon.png</IconPath>
     <Capabilities>
-      <Capability Name="ID_CAP_NETWORKING" />
-      <Capability Name="ID_CAP_SENSORS" />
-      <Capability Name="ID_CAP_WEBBROWSERCOMPONENT" />
       <Capability Name="ID_CAP_LOCATION" />
       <Capability Name="ID_CAP_MAP" />
     </Capabilities>

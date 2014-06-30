@@ -95,7 +95,8 @@
                                Grid.Column="0"
                                Grid.Row="0" />
                     <TextBlock x:Name="tblDistanceValue"
-                               Text="{Binding CurrentTrail.Distance}"
+                               Text="{Binding CurrentTrail.Distance,
+                                              Mode=OneTime}"
                                Grid.Column="1"
                                Grid.Row="0" />
                     <TextBlock x:Name="tblAverageSpeedLabel"
@@ -103,7 +104,8 @@
                                Grid.Column="0"
                                Grid.Row="1" />
                     <TextBlock x:Name="tblAverageSpeedValue"
-                               Text="{Binding CurrentTrail.AverageSpeed}"
+                               Text="{Binding CurrentTrail.AverageSpeed,
+                                              Mode=OneTime}"
                                Grid.Column="1"
                                Grid.Row="1" />
                     <TextBlock x:Name="tblDurationLabel"
@@ -111,7 +113,8 @@
                                Grid.Column="0"
                                Grid.Row="2" />
                     <TextBlock x:Name="tblDurationValue"
-                               Text="{Binding CurrentTrail.Duration}"
+                               Text="{Binding CurrentTrail.Duration,
+                                              Mode=OneTime}"
                                Grid.Column="1"
                                Grid.Row="2" />
                     <TextBlock x:Name="tblMaxSpeedLabel"
@@ -119,7 +122,8 @@
                                Grid.Column="0"
                                Grid.Row="3" />
                     <TextBlock x:Name="tblMaxSpeedValue"
-                               Text="{Binding MaxSpeed}"
+                               Text="{Binding MaxSpeed,
+                                              Mode=OneTime}"
                                Grid.Column="1"
                                Grid.Row="3" />
                     <TextBlock x:Name="tblTotalAscendLabel"
@@ -127,7 +131,8 @@
                                Grid.Column="0"
                                Grid.Row="4" />
                     <TextBlock x:Name="tblTotalAscendValue"
-                               Text="{Binding TotalAscend}"
+                               Text="{Binding TotalAscend,
+                                              Mode=OneTime}"
                                Grid.Column="1"
                                Grid.Row="4" />
                     <TextBlock x:Name="tblTotalDescendLabel"
@@ -135,7 +140,8 @@
                                Grid.Column="0"
                                Grid.Row="5" />
                     <TextBlock x:Name="tblTotalDecendValue"
-                               Text="{Binding TotalDescend}"
+                               Text="{Binding TotalDescend,
+                                              Mode=OneTime}"
                                Grid.Column="1"
                                Grid.Row="5" />
                 </Grid>
