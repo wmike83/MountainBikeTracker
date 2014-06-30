@@ -106,6 +106,9 @@
     <Compile Include="Views\CurrentRidePage.xaml.cs">
       <DependentUpon>CurrentRidePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\HistoryPage.xaml.cs">
+      <DependentUpon>HistoryPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -127,6 +130,10 @@
     <Page Include="Views\CurrentRidePage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\HistoryPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MainPage.xaml">
       <SubType>Designer</SubType>
