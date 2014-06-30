@@ -4,6 +4,7 @@ using Microsoft.Phone.Shell;
 using System.IO.IsolatedStorage;
 using Windows.Devices.Geolocation;
 using System;
+using MountainBikeTracker_WP8.Resources;
 
 namespace MountainBikeTracker_WP8.Views
 {
@@ -48,8 +49,8 @@ namespace MountainBikeTracker_WP8.Views
             else
             {
                 MessageBoxResult result =
-                    MessageBox.Show("This app accesses your phone's location. Is that ok?",
-                    "Location",
+                    MessageBox.Show(AppResources.LocationRequest,
+                    AppResources.LocationLabel,
                     MessageBoxButton.OKCancel);
 
                 if (result == MessageBoxResult.OK)
@@ -76,7 +77,7 @@ namespace MountainBikeTracker_WP8.Views
                 Services.ServiceLocator.GeolocatorService.OnStatusChanged += this.OnStatusChanged;
 
                 this.ProgressBar(true);
-                SystemTray.ProgressIndicator.Text = "Acquiring GPS Signal...";
+                SystemTray.ProgressIndicator.Text = AppResources.AcquiringGPS;
             }
             else
             {

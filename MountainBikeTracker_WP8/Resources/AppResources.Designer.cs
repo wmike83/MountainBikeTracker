@@ -61,6 +61,24 @@ namespace MountainBikeTracker_WP8.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &quot;Acquiring GPS Signal...&quot;.
+        /// </summary>
+        public static string AcquiringGPS {
+            get {
+                return ResourceManager.GetString("AcquiringGPS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to alt.
+        /// </summary>
+        public static string AltLabel {
+            get {
+                return ResourceManager.GetString("AltLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Mountian Bike Tracker.
         /// </summary>
         public static string ApplicationTitle {
@@ -70,11 +88,65 @@ namespace MountainBikeTracker_WP8.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to average.
+        /// </summary>
+        public static string AverageLabel {
+            get {
+                return ResourceManager.GetString("AverageLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to delete.
         /// </summary>
         public static string DeleteAppBarButtonText {
             get {
                 return ResourceManager.GetString("DeleteAppBarButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to distance.
+        /// </summary>
+        public static string DistanceLabel {
+            get {
+                return ResourceManager.GetString("DistanceLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to dist.
+        /// </summary>
+        public static string DistLabel {
+            get {
+                return ResourceManager.GetString("DistLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to duration.
+        /// </summary>
+        public static string DurationLabel {
+            get {
+                return ResourceManager.GetString("DurationLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Location.
+        /// </summary>
+        public static string LocationLabel {
+            get {
+                return ResourceManager.GetString("LocationLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This app accesses your phone&apos;s location. Is that ok?.
+        /// </summary>
+        public static string LocationRequest {
+            get {
+                return ResourceManager.GetString("LocationRequest", resourceCulture);
             }
         }
         
@@ -115,6 +187,24 @@ namespace MountainBikeTracker_WP8.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to speed.
+        /// </summary>
+        public static string SpeedLabel {
+            get {
+                return ResourceManager.GetString("SpeedLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to mph.
+        /// </summary>
+        public static string SpeedUnitsLabel {
+            get {
+                return ResourceManager.GetString("SpeedUnitsLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to start.
         /// </summary>
         public static string StartAppBarButtonText {
@@ -124,7 +214,7 @@ namespace MountainBikeTracker_WP8.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Start New Ride.
+        ///   Looks up a localized string similar to start new ride.
         /// </summary>
         public static string StartNewRideButtonText {
             get {
@@ -142,7 +232,16 @@ namespace MountainBikeTracker_WP8.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to View History.
+        ///   Looks up a localized string similar to time.
+        /// </summary>
+        public static string TimeLabel {
+            get {
+                return ResourceManager.GetString("TimeLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to view history.
         /// </summary>
         public static string ViewHistoryButtonText {
             get {

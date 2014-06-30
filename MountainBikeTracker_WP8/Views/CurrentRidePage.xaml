@@ -58,7 +58,8 @@
                                                 Converter={StaticResource CurrentSpeedToForegroundConverter},
                                                 Mode=OneWay}" />
 
-                <TextBlock Text="mph"
+                <TextBlock Text="{Binding Path=LocalizedResources.SpeedUnitsLable,
+                                          Source={StaticResource LocalizedStrings}}"
                            VerticalAlignment="Bottom"
                            HorizontalAlignment="Right"
                            FontSize="44" />
@@ -75,7 +76,8 @@
                            VerticalAlignment="Bottom"
                            Margin="0,0,0,-16" />
 
-                <TextBlock Text="Distance"
+                <TextBlock Text="{Binding Path=LocalizedResources.DistanceLabel,
+                                          Source={StaticResource LocalizedStrings}}"
                            HorizontalAlignment="Right" />
 
                 <TextBlock x:Name="tblDuration"
@@ -88,7 +90,8 @@
                            VerticalAlignment="Bottom"
                            Margin="0,0,0,-10" />
 
-                <TextBlock Text="Duration"
+                <TextBlock Text="{Binding Path=LocalizedResources.DurationLabel,
+                                          Source={StaticResource LocalizedStrings}}"
                            HorizontalAlignment="Right" />
 
                 <TextBlock x:Name="tblAverageSpeed"
@@ -101,7 +104,8 @@
                            VerticalAlignment="Bottom"
                            Margin="0,0,0,-10" />
 
-                <TextBlock Text="Average"
+                <TextBlock Text="{Binding Path=LocalizedResources.AverageLabel,
+                                          Source={StaticResource LocalizedStrings}}"
                            HorizontalAlignment="Right" />
             </StackPanel>
         </Grid>
@@ -151,11 +155,12 @@
                         </Grid.ColumnDefinitions>
 
                         <!-- distance -->
-                        <TextBlock Text="Speed:"
+                        <TextBlock Text="{Binding Path=LocalizedResources.SpeedLabel,
+                                                  Source={StaticResource LocalizedStrings}}"
                                    Style="{StaticResource PhoneTextNormalStyle}" />
                         <TextBlock Text="{Binding CurrentSpeed,
-                                              FallbackValue=00.0,
-                                              StringFormat=\{0:F1\}}"
+                                                  FallbackValue=00.0,
+                                                  StringFormat=\{0:F1\}}"
                                    Grid.Column="1"
                                    HorizontalAlignment="Center"
                                    Foreground="{Binding CurrentSpeed,
@@ -164,16 +169,21 @@
                                    Style="{StaticResource PhoneTextLargeStyle}" />
 
                         <!-- time -->
-                        <TextBlock Text="Time:"
+                        <TextBlock Text="{Binding Path=LocalizedResources.TimeLabel,
+                                                  Source={StaticResource LocalizedStrings}}"
                                    Grid.Column="2"
                                    Style="{StaticResource PhoneTextNormalStyle}" />
-                        <TextBlock Text="{Binding CurrentTrail.Duration, FallbackValue=00:00:00, Mode=OneWay, StringFormat=\{0:hh\\:mm\\:ss\}}"
+                        <TextBlock Text="{Binding CurrentTrail.Duration,
+                                                  FallbackValue=00:00:00,
+                                                  Mode=OneWay,
+                                                  StringFormat=\{0:hh\\:mm\\:ss\}}"
                                    Grid.Column="3"
                                    HorizontalAlignment="Center"
                                    Style="{StaticResource PhoneTextLargeStyle}" />
 
                         <!-- calories -->
-                        <TextBlock Text="Dist:"
+                        <TextBlock Text="{Binding Path=LocalizedResources.DistLabel,
+                                                  Source={StaticResource LocalizedStrings}}"
                                    Grid.Row="1"
                                    Style="{StaticResource PhoneTextNormalStyle}" />
                         <TextBlock Text="{Binding CurrentTrail.Distance,
@@ -186,7 +196,8 @@
                                    Style="{StaticResource PhoneTextLargeStyle}" />
 
                         <!-- pace -->
-                        <TextBlock Text="Alt:"
+                        <TextBlock Text="{Binding Path=LocalizedResources.AltLabel,
+                                                  Source={StaticResource LocalizedStrings}}"
                                    Grid.Column="2"
                                    Grid.Row="1"
                                    Style="{StaticResource PhoneTextNormalStyle}" />

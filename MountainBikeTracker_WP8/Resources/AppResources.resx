@@ -135,10 +135,10 @@
     <value>pause</value>
   </data>
   <data name="StartNewRideButtonText" xml:space="preserve">
-    <value>Start New Ride</value>
+    <value>start new ride</value>
   </data>
   <data name="ViewHistoryButtonText" xml:space="preserve">
-    <value>View History</value>
+    <value>view history</value>
   </data>
   <data name="SaveAppBarMenuItemText" xml:space="preserve">
     <value>save</value>
@@ -148,5 +148,38 @@
   </data>
   <data name="StopAppBarButtonText" xml:space="preserve">
     <value>stop</value>
+  </data>
+  <data name="AcquiringGPS" xml:space="preserve">
+    <value>"Acquiring GPS Signal..."</value>
+  </data>
+  <data name="AltLabel" xml:space="preserve">
+    <value>alt</value>
+  </data>
+  <data name="AverageLabel" xml:space="preserve">
+    <value>average</value>
+  </data>
+  <data name="DistanceLabel" xml:space="preserve">
+    <value>distance</value>
+  </data>
+  <data name="DistLabel" xml:space="preserve">
+    <value>dist</value>
+  </data>
+  <data name="DurationLabel" xml:space="preserve">
+    <value>duration</value>
+  </data>
+  <data name="LocationLabel" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="LocationRequest" xml:space="preserve">
+    <value>This app accesses your phone's location. Is that ok?</value>
+  </data>
+  <data name="SpeedLabel" xml:space="preserve">
+    <value>speed</value>
+  </data>
+  <data name="SpeedUnitsLabel" xml:space="preserve">
+    <value>mph</value>
+  </data>
+  <data name="TimeLabel" xml:space="preserve">
+    <value>time</value>
   </data>
 </root>
