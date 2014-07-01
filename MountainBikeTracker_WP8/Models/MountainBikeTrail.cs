@@ -184,6 +184,7 @@ namespace MountainBikeTracker_WP8.Models
         {
             return meters * 0.000632371;
         }
+        public static Random rand = new Random();
         public static GeoCoordinate CreateGeoCoordinate(Geocoordinate geocoordinate)
         {
             // Removing all double? to values or zero
@@ -197,6 +198,7 @@ namespace MountainBikeTracker_WP8.Models
                 Speed = (geocoordinate.Speed.HasValue && !double.IsNaN(geocoordinate.Speed.Value)) ? geocoordinate.Speed.Value : 0,
                 VerticalAccuracy = (geocoordinate.AltitudeAccuracy.HasValue && !double.IsNaN(geocoordinate.AltitudeAccuracy.Value)) ? geocoordinate.AltitudeAccuracy.Value : 0
             };
+            location.Altitude = rand.NextDouble() * 100;
 
             return location;
         }

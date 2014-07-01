@@ -7,6 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:usrContr="clr-namespace:MountainBikeTracker_WP8.Views.UserControls"
     mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
@@ -145,24 +146,12 @@
                                               Mode=OneTime}"
                                Grid.Column="1"
                                Grid.Row="5" />
-                    <Canvas Height="431"
-                            Background="Blue"
-                            Grid.Column="0"
-                            Grid.ColumnSpan="2"
-                            Grid.Row="6">
-                        <Polyline x:Name="linElevation"
-                              Height="431"
-                              Width="456"
-                              Stroke="Red"
-                              StrokeThickness="2">
-                            <Polyline.Points>
-                                <Point Y="200" X="10" />
-                                <Point Y="300" X="30" />
-                                <Point Y="239" X="50" />
-                                <Point Y="100" X="70" />
-                            </Polyline.Points>
-                        </Polyline>
-                    </Canvas>
+                    <usrContr:LineGraph x:Name="usrLineGraph"
+                                        Grid.Row="6"
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="2">
+                        
+                    </usrContr:LineGraph>
                 </Grid>
             </phone:PivotItem>
         </phone:Pivot>

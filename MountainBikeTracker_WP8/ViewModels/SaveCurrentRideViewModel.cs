@@ -18,6 +18,9 @@ namespace MountainBikeTracker_WP8.ViewModels
         private double _totalAscend;
         private double _totalDescend;
         private double _maxSpeed;
+        private double _maxElevation;
+        private double _minElevation;
+        private double[] _points;
 
         public MountainBikeTrail CurrentTrail { get; private set; }
         public TrailInformation TrailInfo { get; private set; }
@@ -42,8 +45,31 @@ namespace MountainBikeTracker_WP8.ViewModels
                 return MountainBikeTrail.ConvertMetersPerSecondToMilesPerHour(this._maxSpeed);
             }
         }
+        public double MaxElevation
+        {
+            get
+            {
+                return this._maxElevation;
+            }
+        }
+        public double MinElevation
+        {
+            get
+            {
+                return this._minElevation;
+            }
+        }
+        public double[] Points
+        {
+            get
+            {
+                return this._points;
+            }
+        }
         public SaveCurrentRideViewModel()
         {
+            this._maxElevation = double.MinValue;
+            this._minElevation = double.MaxValue;
             this.GetTrailData();
         }
 
@@ -56,6 +82,8 @@ namespace MountainBikeTracker_WP8.ViewModels
                 City = ""//Services.ServiceLocator.GeolocatorService.LastCity
             };
             GeoCoordinate lastGeo = App.CurrentRideViewModel.CurrentTrail.Points.FirstOrDefault<GeoCoordinate>();
+            this._points = new double[App.CurrentRideViewModel.CurrentTrail.Points.Count];
+            int index = 0;
             foreach (GeoCoordinate geo in App.CurrentRideViewModel.CurrentTrail.Points)
             {
                 double deltaAltitude = geo.Altitude - lastGeo.Altitude;
@@ -67,6 +95,14 @@ namespace MountainBikeTracker_WP8.ViewModels
 
                 if (currentSpeed > this.MaxSpeed)
                     this._maxSpeed = currentSpeed;
+
+                if (geo.Altitude > this._maxElevation)
+                    this._maxElevation = geo.Altitude;
+
+                if (geo.Altitude < this._minElevation)
+                    this._minElevation = geo.Altitude;
+
+                this._points[index++] = geo.Altitude;
             }
         }
     }

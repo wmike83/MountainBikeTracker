@@ -17,6 +17,15 @@ namespace MountainBikeTracker_WP8.Views
             InitializeComponent();
 
             this.DataContext = App.SaveCurrentRideViewModel;
+
+            this.Loaded += SaveCurrentRidePage_Loaded;
         }
+
+        void SaveCurrentRidePage_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.usrLineGraph.AddPointsToGraph(App.SaveCurrentRideViewModel.Points, App.SaveCurrentRideViewModel.MaxElevation, App.SaveCurrentRideViewModel.MinElevation);
+        }
+
+
     }
 }
