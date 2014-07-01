@@ -17,10 +17,12 @@ namespace MountainBikeTracker_WP8.ViewModels
     {
         private double _totalAscend;
         private double _totalDescend;
-        private double _maxSpeed;
         private double _maxElevation;
         private double _minElevation;
-        private double[] _points;
+        private double[] _elevationPoints;
+        private double _maxSpeed;
+        private double _minSpeed;
+        private double[] _speedPoints;
 
         public MountainBikeTrail CurrentTrail { get; private set; }
         public TrailInformation TrailInfo { get; private set; }
@@ -38,7 +40,7 @@ namespace MountainBikeTracker_WP8.ViewModels
                 return MountainBikeTrail.ConvertMetersToFeet(this._totalDescend);
             }
         }
-        public double MaxSpeed
+        public double MaxSpeedMPH
         {
             get
             {
@@ -59,17 +61,40 @@ namespace MountainBikeTracker_WP8.ViewModels
                 return this._minElevation;
             }
         }
-        public double[] Points
+        public double[] ElevationPoints
         {
             get
             {
-                return this._points;
+                return this._elevationPoints;
+            }
+        }
+        public double MaxSpeed
+        {
+            get
+            {
+                return MountainBikeTrail.ConvertMetersPerSecondToMilesPerHour(this._maxSpeed);
+            }
+        }
+        public double MinSpeed
+        {
+            get
+            {
+                return this._minSpeed;
+            }
+        }
+        public double[] SpeedPoints
+        {
+            get
+            {
+                return this._speedPoints;
             }
         }
         public SaveCurrentRideViewModel()
         {
             this._maxElevation = double.MinValue;
             this._minElevation = double.MaxValue;
+            this._maxSpeed = double.MinValue;
+            this._minSpeed = double.MaxValue;
             this.GetTrailData();
         }
 
@@ -81,28 +106,37 @@ namespace MountainBikeTracker_WP8.ViewModels
                 Date = App.CurrentRideViewModel.CurrentTrail.TimeStamps.FirstOrDefault<DateTime>(),
                 City = ""//Services.ServiceLocator.GeolocatorService.LastCity
             };
-            GeoCoordinate lastGeo = App.CurrentRideViewModel.CurrentTrail.Points.FirstOrDefault<GeoCoordinate>();
-            this._points = new double[App.CurrentRideViewModel.CurrentTrail.Points.Count];
+            //GeoCoordinate lastGeo = App.CurrentRideViewModel.CurrentTrail.Points.FirstOrDefault<GeoCoordinate>();
+            double lastAltitude = App.CurrentRideViewModel.CurrentTrail.Points.FirstOrDefault<GeoCoordinate>().Altitude;
+            this._elevationPoints = new double[App.CurrentRideViewModel.CurrentTrail.Points.Count];
+            this._speedPoints = new double[App.CurrentRideViewModel.CurrentTrail.Points.Count];
             int index = 0;
             foreach (GeoCoordinate geo in App.CurrentRideViewModel.CurrentTrail.Points)
             {
-                double deltaAltitude = geo.Altitude - lastGeo.Altitude;
+                double currentAltitude = geo.Altitude;
+                double deltaAltitude = currentAltitude - lastAltitude;
                 double currentSpeed = geo.Speed;
+                
                 if( deltaAltitude >= 0.00000000 )
                     this._totalAscend += deltaAltitude;
                 else
                     this._totalDescend += (deltaAltitude * -1);
 
-                if (currentSpeed > this.MaxSpeed)
+                if (currentAltitude > this._maxElevation)
+                    this._maxElevation = currentAltitude;
+
+                if (currentAltitude < this._minElevation)
+                    this._minElevation = currentAltitude;
+
+                this._elevationPoints[index] = currentAltitude;
+
+                if (currentSpeed > this._maxSpeed)
                     this._maxSpeed = currentSpeed;
 
-                if (geo.Altitude > this._maxElevation)
-                    this._maxElevation = geo.Altitude;
+                if (currentSpeed < this._minSpeed)
+                    this._minSpeed = currentSpeed;
 
-                if (geo.Altitude < this._minElevation)
-                    this._minElevation = geo.Altitude;
-
-                this._points[index++] = geo.Altitude;
+                this._speedPoints[index++] = currentSpeed;
             }
         }
     }

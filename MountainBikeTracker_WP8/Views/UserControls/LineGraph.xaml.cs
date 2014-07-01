@@ -25,6 +25,7 @@ namespace MountainBikeTracker_WP8.Views.UserControls
             double x_difference = this.cvsLineGraph.ActualWidth / (points.Length - 1);
             double y_difference = this.cvsLineGraph.ActualHeight;
             double normalizedY = 0;
+            this.plnElevation.Points.Add(new Point(0, y_difference));
             foreach (var point in points)
             {
                 normalizedY = ((point - min) / (max - min)) * y_difference;
@@ -32,6 +33,7 @@ namespace MountainBikeTracker_WP8.Views.UserControls
                 this.plnElevation.Points.Add(new Point(normalizedX, normalizedY));
                 normalizedX += x_difference;
             }
+            this.plnElevation.Points.Add(new Point(this.cvsLineGraph.ActualWidth, y_difference));
         }
     }
 }

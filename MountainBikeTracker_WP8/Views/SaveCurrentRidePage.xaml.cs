@@ -23,7 +23,7 @@ namespace MountainBikeTracker_WP8.Views
 
         void SaveCurrentRidePage_Loaded(object sender, RoutedEventArgs e)
         {
-            this.usrLineGraph.AddPointsToGraph(App.SaveCurrentRideViewModel.Points, App.SaveCurrentRideViewModel.MaxElevation, App.SaveCurrentRideViewModel.MinElevation);
+            this.usrLineGraph.AddPointsToGraph(App.SaveCurrentRideViewModel.ElevationPoints, App.SaveCurrentRideViewModel.MaxElevation, App.SaveCurrentRideViewModel.MinElevation);
         }
 
 
