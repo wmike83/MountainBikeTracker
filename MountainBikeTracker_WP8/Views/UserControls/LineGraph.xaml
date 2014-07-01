@@ -17,13 +17,8 @@
             <Polyline x:Name="plnElevation"
                       Height="300"
                       Stroke="Red"
-                      StrokeThickness="2">
-                <!--<Polyline.Points>
-                    <Point Y="200" X="10" />
-                    <Point Y="300" X="30" />
-                    <Point Y="239" X="50" />
-                    <Point Y="100" X="70" />
-                </Polyline.Points>-->
+                      StrokeThickness="2"
+                      Width="{Binding ActualWidth, ElementName=cvsLineGraph, Mode=OneWay}">
             </Polyline>
         </Canvas>
     </Grid>

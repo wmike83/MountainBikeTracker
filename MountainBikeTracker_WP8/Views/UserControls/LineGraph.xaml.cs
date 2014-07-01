@@ -22,7 +22,7 @@ namespace MountainBikeTracker_WP8.Views.UserControls
         public void AddPointsToGraph(double[] points, double max, double min)
         {
             double normalizedX = 0;
-            double x_difference = this.cvsLineGraph.ActualWidth / points.Length;
+            double x_difference = this.cvsLineGraph.ActualWidth / (points.Length - 1);
             double y_difference = this.cvsLineGraph.ActualHeight;
             double normalizedY = 0;
             foreach (var point in points)
