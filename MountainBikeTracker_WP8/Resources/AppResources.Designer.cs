@@ -61,7 +61,7 @@ namespace MountainBikeTracker_WP8.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &quot;Acquiring GPS Signal...&quot;.
+        ///   Looks up a localized string similar to Acquiring GPS Signal....
         /// </summary>
         public static string AcquiringGPS {
             get {

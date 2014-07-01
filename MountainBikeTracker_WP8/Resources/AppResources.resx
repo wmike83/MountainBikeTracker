@@ -150,7 +150,7 @@
     <value>stop</value>
   </data>
   <data name="AcquiringGPS" xml:space="preserve">
-    <value>"Acquiring GPS Signal..."</value>
+    <value>Acquiring GPS Signal...</value>
   </data>
   <data name="AltLabel" xml:space="preserve">
     <value>alt</value>
