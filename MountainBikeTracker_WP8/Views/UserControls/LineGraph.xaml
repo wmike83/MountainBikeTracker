@@ -18,7 +18,9 @@
                       Height="300"
                       Stroke="Red"
                       StrokeThickness="2"
-                      Width="{Binding ActualWidth, ElementName=cvsLineGraph, Mode=OneWay}">
+                      Width="{Binding ActualWidth,
+                                      ElementName=cvsLineGraph,
+                                      Mode=OneWay}">
             </Polyline>
         </Canvas>
     </Grid>
