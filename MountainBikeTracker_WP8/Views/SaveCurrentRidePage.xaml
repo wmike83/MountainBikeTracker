@@ -67,10 +67,13 @@
 
                         <Button x:Name="btnSave"
                                 Content="save"
-                                Grid.Column="0" />
+                                Grid.Column="0"
+                                Command="{Binding SaveCommand}"
+                                Click="btnSave_Click" />
                         <Button x:Name="btnCancel"
                                 Content="cancel"
-                                Grid.Column="1" />
+                                Grid.Column="1"
+                                Click="btnCancel_Click" />
                     </Grid>
                 </Grid>
             </phone:PivotItem>
@@ -95,57 +98,69 @@
                         </Grid.RowDefinitions>
 
                         <TextBlock x:Name="tblDistanceLabel"
-                                   Text="Distance"
+                                   Text="{Binding Path=LocalizedResources.DistanceLabel,
+                                                  Source={StaticResource LocalizedStrings}}"
                                    Grid.Column="0"
                                    Grid.Row="0" />
                         <TextBlock x:Name="tblDistanceValue"
                                    Text="{Binding CurrentTrail.Distance,
-                                                  Mode=OneTime}"
+                                                  Mode=OneTime,
+                                                  StringFormat=\{0:F2\}}"
                                    Grid.Column="1"
                                    Grid.Row="0" />
                         <TextBlock x:Name="tblAverageSpeedLabel"
-                                   Text="Average Speed"
+                                   Text="{Binding Path=LocalizedResources.AverageSpeedLabel,
+                                                  Source={StaticResource LocalizedStrings}}"
                                    Grid.Column="0"
                                    Grid.Row="1" />
                         <TextBlock x:Name="tblAverageSpeedValue"
                                    Text="{Binding CurrentTrail.AverageSpeed,
-                                                  Mode=OneTime}"
+                                                  Mode=OneTime,
+                                                  StringFormat=\{0:F2\}}"
                                    Grid.Column="1"
                                    Grid.Row="1" />
                         <TextBlock x:Name="tblDurationLabel"
-                                   Text="Duration"
+                                   Text="{Binding Path=LocalizedResources.DurationLabel,
+                                                  Source={StaticResource LocalizedStrings}}"
                                    Grid.Column="0"
                                    Grid.Row="2" />
                         <TextBlock x:Name="tblDurationValue"
                                    Text="{Binding CurrentTrail.Duration,
-                                                  Mode=OneTime}"
+                                                  Mode=OneTime,
+                                                  StringFormat=\{0:hh\\:mm\\:ss\}}"
                                    Grid.Column="1"
                                    Grid.Row="2" />
                         <TextBlock x:Name="tblMaxSpeedLabel"
-                                   Text="Max Speed"
+                                   Text="{Binding Path=LocalizedResources.MaxSpeedLabel,
+                                                  Source={StaticResource LocalizedStrings}}"
                                    Grid.Column="0"
                                    Grid.Row="3" />
                         <TextBlock x:Name="tblMaxSpeedValue"
                                    Text="{Binding MaxSpeedMPH,
-                                                  Mode=OneTime}"
+                                                  Mode=OneTime,
+                                                  StringFormat=\{0:F2\}}"
                                    Grid.Column="1"
                                    Grid.Row="3" />
                         <TextBlock x:Name="tblTotalAscendLabel"
-                                   Text="TotalAscend"
+                                   Text="{Binding Path=LocalizedResources.TotalAscendLabel,
+                                                  Source={StaticResource LocalizedStrings}}"
                                    Grid.Column="0"
                                    Grid.Row="4" />
                         <TextBlock x:Name="tblTotalAscendValue"
                                    Text="{Binding TotalAscend,
-                                                  Mode=OneTime}"
+                                                  Mode=OneTime,
+                                                  StringFormat=\{0:F1\}}"
                                    Grid.Column="1"
                                    Grid.Row="4" />
                         <TextBlock x:Name="tblTotalDescendLabel"
-                                   Text="Total Descend"
+                                   Text="{Binding Path=LocalizedResources.TotalDescendLabel,
+                                                  Source={StaticResource LocalizedStrings}}"
                                    Grid.Column="0"
                                    Grid.Row="5" />
                         <TextBlock x:Name="tblTotalDecendValue"
                                    Text="{Binding TotalDescend,
-                                                  Mode=OneTime}"
+                                                  Mode=OneTime,
+                                                  StringFormat=\{0:F1\}}"
                                    Grid.Column="1"
                                    Grid.Row="5" />
                         <usrContr:LineGraph x:Name="lnhElevation"

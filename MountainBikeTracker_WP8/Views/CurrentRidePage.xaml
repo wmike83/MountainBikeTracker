@@ -58,7 +58,7 @@
                                                 Converter={StaticResource CurrentSpeedToForegroundConverter},
                                                 Mode=OneWay}" />
 
-                <TextBlock Text="{Binding Path=LocalizedResources.SpeedUnitsLable,
+                <TextBlock Text="{Binding Path=LocalizedResources.SpeedUnitsLabel,
                                           Source={StaticResource LocalizedStrings}}"
                            VerticalAlignment="Bottom"
                            HorizontalAlignment="Right"

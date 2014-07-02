@@ -1,10 +1,8 @@
-﻿using MountainBikeTracker_WP8.Models;
+﻿using MountainBikeTracker_WP8.Helpers;
+using MountainBikeTracker_WP8.Models;
 using System;
-using System.Collections.Generic;
 using System.Device.Location;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MountainBikeTracker_WP8.ViewModels
 {
@@ -89,9 +87,17 @@ namespace MountainBikeTracker_WP8.ViewModels
                 return this._speedPoints;
             }
         }
+        public RelayCommand SaveCommand
+        {
+            get;
+            private set;
+        }
         public SaveCurrentRideViewModel()
         {
             this.Reset();
+            this.GetTrailData();
+
+            this.SaveCommand = new RelayCommand(ExecuteSaveCommand);
         }
 
         public void GetTrailData()
@@ -149,7 +155,19 @@ namespace MountainBikeTracker_WP8.ViewModels
             this._speedPoints = null;
             this._totalAscend = 0;
             this._totalDescend = 0;
-            this.GetTrailData();
         }
+
+        #region Command Execute
+        /// <summary>
+        /// Command to Save data to Collection
+        /// </summary>
+        private void ExecuteSaveCommand()
+        {
+            // Prepare to save data
+
+            this.Reset();
+
+        }
+
     }
 }

@@ -27,5 +27,16 @@ namespace MountainBikeTracker_WP8.Views
             this.lnhSpeed.AddPointsToGraph(App.SaveCurrentRideViewModel.SpeedPoints, App.SaveCurrentRideViewModel.MaxSpeed, App.SaveCurrentRideViewModel.MinSpeed);
             this.lnhSpeed.AddAverageLineToGraph((App.SaveCurrentRideViewModel.CurrentTrail.AverageSpeed * 0.4470400004105615), App.SaveCurrentRideViewModel.MaxSpeed, App.SaveCurrentRideViewModel.MinSpeed);
         }
+
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            App.SaveCurrentRideViewModel.Reset();
+            NavigationService.GoBack();
+        }
+
+        private void btnSave_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("HELL");
+        }
     }
 }

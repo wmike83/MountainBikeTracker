@@ -97,6 +97,15 @@ namespace MountainBikeTracker_WP8.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to average speed.
+        /// </summary>
+        public static string AverageSpeedLabel {
+            get {
+                return ResourceManager.GetString("AverageSpeedLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to delete.
         /// </summary>
         public static string DeleteAppBarButtonText {
@@ -147,6 +156,15 @@ namespace MountainBikeTracker_WP8.Resources {
         public static string LocationRequest {
             get {
                 return ResourceManager.GetString("LocationRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to max speed.
+        /// </summary>
+        public static string MaxSpeedLabel {
+            get {
+                return ResourceManager.GetString("MaxSpeedLabel", resourceCulture);
             }
         }
         
@@ -237,6 +255,24 @@ namespace MountainBikeTracker_WP8.Resources {
         public static string TimeLabel {
             get {
                 return ResourceManager.GetString("TimeLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to total ascend.
+        /// </summary>
+        public static string TotalAscend {
+            get {
+                return ResourceManager.GetString("TotalAscend", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to total descend.
+        /// </summary>
+        public static string TotalDescend {
+            get {
+                return ResourceManager.GetString("TotalDescend", resourceCulture);
             }
         }
         

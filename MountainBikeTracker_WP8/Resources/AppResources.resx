@@ -182,4 +182,16 @@
   <data name="TimeLabel" xml:space="preserve">
     <value>time</value>
   </data>
+  <data name="AverageSpeedLabel" xml:space="preserve">
+    <value>average speed</value>
+  </data>
+  <data name="MaxSpeedLabel" xml:space="preserve">
+    <value>max speed</value>
+  </data>
+  <data name="TotalAscend" xml:space="preserve">
+    <value>total ascend</value>
+  </data>
+  <data name="TotalDescend" xml:space="preserve">
+    <value>total descend</value>
+  </data>
 </root>
