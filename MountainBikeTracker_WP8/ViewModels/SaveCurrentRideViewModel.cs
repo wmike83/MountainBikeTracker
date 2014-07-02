@@ -72,7 +72,7 @@ namespace MountainBikeTracker_WP8.ViewModels
         {
             get
             {
-                return MountainBikeTrail.ConvertMetersPerSecondToMilesPerHour(this._maxSpeed);
+                return this._maxSpeed;
             }
         }
         public double MinSpeed
@@ -107,6 +107,7 @@ namespace MountainBikeTracker_WP8.ViewModels
             this._elevationPoints = new double[App.CurrentRideViewModel.CurrentTrail.Points.Count];
             this._speedPoints = new double[App.CurrentRideViewModel.CurrentTrail.Points.Count];
             int index = 0;
+
             foreach (GeoCoordinate geo in App.CurrentRideViewModel.CurrentTrail.Points)
             {
                 double currentAltitude = geo.Altitude;
@@ -133,6 +134,8 @@ namespace MountainBikeTracker_WP8.ViewModels
                     this._minSpeed = currentSpeed;
 
                 this._speedPoints[index++] = currentSpeed;
+
+                lastAltitude = currentAltitude;
             }
         }
 

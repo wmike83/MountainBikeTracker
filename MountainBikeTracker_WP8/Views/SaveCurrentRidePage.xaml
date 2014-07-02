@@ -126,7 +126,7 @@
                                    Grid.Column="0"
                                    Grid.Row="3" />
                         <TextBlock x:Name="tblMaxSpeedValue"
-                                   Text="{Binding MaxSpeed,
+                                   Text="{Binding MaxSpeedMPH,
                                                   Mode=OneTime}"
                                    Grid.Column="1"
                                    Grid.Row="3" />

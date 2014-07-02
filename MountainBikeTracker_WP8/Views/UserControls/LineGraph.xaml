@@ -11,7 +11,7 @@
     
     <Grid x:Name="LayoutRoot"
           Background="{StaticResource PhoneChromeBrush}">
-        <ScrollViewer BorderBrush="White"
+        <Border BorderBrush="White"
                       BorderThickness="2">
             <Canvas x:Name="cvsLineGraph"
                     Height="300"
@@ -26,6 +26,6 @@
                                          Mode=OneWay}">
                 </Polygon>
             </Canvas>
-        </ScrollViewer>
+        </Border>
     </Grid>
 </UserControl>

@@ -186,6 +186,7 @@ namespace MountainBikeTracker_WP8.Models
         }
         public static Random rand = new Random();
         public static double lastAltitude = double.MinValue;
+        public static double lastSpeed = double.MinValue;
         public static GeoCoordinate CreateGeoCoordinate(Geocoordinate geocoordinate)
         {
             // Removing all double? to values or zero
@@ -200,12 +201,16 @@ namespace MountainBikeTracker_WP8.Models
                 VerticalAccuracy = (geocoordinate.AltitudeAccuracy.HasValue && !double.IsNaN(geocoordinate.AltitudeAccuracy.Value)) ? geocoordinate.AltitudeAccuracy.Value : 0
             };
 
-            if (lastAltitude == double.MinValue)
-                lastAltitude = 133;
+            //if (lastAltitude == double.MinValue)
+            //    lastAltitude = 133.4;
+            //if (lastSpeed == double.MinValue)
+            //    lastSpeed = 5.3;
 
-            location.Altitude = ((rand.NextDouble() - 0.5) * 10) + lastAltitude;
+            //location.Altitude = ((rand.NextDouble() - 0.5) * 10) + lastAltitude;
+            //location.Speed = ((rand.NextDouble() - 0.5) * 3) + lastSpeed;
 
-            lastAltitude = location.Altitude;
+            //lastAltitude = location.Altitude;
+            //lastSpeed = location.Speed;
 
             return location;
         }
