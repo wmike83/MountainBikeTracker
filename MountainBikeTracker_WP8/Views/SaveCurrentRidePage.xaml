@@ -77,82 +77,91 @@
 
             <!--Pivot item two-->
             <phone:PivotItem Header="stats">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
+                <ScrollViewer>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
 
-                    <TextBlock x:Name="tblDistanceLabel"
-                               Text="Distance"
-                               Grid.Column="0"
-                               Grid.Row="0" />
-                    <TextBlock x:Name="tblDistanceValue"
-                               Text="{Binding CurrentTrail.Distance,
-                                              Mode=OneTime}"
-                               Grid.Column="1"
-                               Grid.Row="0" />
-                    <TextBlock x:Name="tblAverageSpeedLabel"
-                               Text="Average Speed"
-                               Grid.Column="0"
-                               Grid.Row="1" />
-                    <TextBlock x:Name="tblAverageSpeedValue"
-                               Text="{Binding CurrentTrail.AverageSpeed,
-                                              Mode=OneTime}"
-                               Grid.Column="1"
-                               Grid.Row="1" />
-                    <TextBlock x:Name="tblDurationLabel"
-                               Text="Duration"
-                               Grid.Column="0"
-                               Grid.Row="2" />
-                    <TextBlock x:Name="tblDurationValue"
-                               Text="{Binding CurrentTrail.Duration,
-                                              Mode=OneTime}"
-                               Grid.Column="1"
-                               Grid.Row="2" />
-                    <TextBlock x:Name="tblMaxSpeedLabel"
-                               Text="Max Speed"
-                               Grid.Column="0"
-                               Grid.Row="3" />
-                    <TextBlock x:Name="tblMaxSpeedValue"
-                               Text="{Binding MaxSpeed,
-                                              Mode=OneTime}"
-                               Grid.Column="1"
-                               Grid.Row="3" />
-                    <TextBlock x:Name="tblTotalAscendLabel"
-                               Text="TotalAscend"
-                               Grid.Column="0"
-                               Grid.Row="4" />
-                    <TextBlock x:Name="tblTotalAscendValue"
-                               Text="{Binding TotalAscend,
-                                              Mode=OneTime}"
-                               Grid.Column="1"
-                               Grid.Row="4" />
-                    <TextBlock x:Name="tblTotalDescendLabel"
-                               Text="Total Descend"
-                               Grid.Column="0"
-                               Grid.Row="5" />
-                    <TextBlock x:Name="tblTotalDecendValue"
-                               Text="{Binding TotalDescend,
-                                              Mode=OneTime}"
-                               Grid.Column="1"
-                               Grid.Row="5" />
-                    <usrContr:LineGraph x:Name="usrLineGraph"
-                                        Grid.Row="6"
-                                        Grid.Column="0"
-                                        Grid.ColumnSpan="2">
+                        <TextBlock x:Name="tblDistanceLabel"
+                                   Text="Distance"
+                                   Grid.Column="0"
+                                   Grid.Row="0" />
+                        <TextBlock x:Name="tblDistanceValue"
+                                   Text="{Binding CurrentTrail.Distance,
+                                                  Mode=OneTime}"
+                                   Grid.Column="1"
+                                   Grid.Row="0" />
+                        <TextBlock x:Name="tblAverageSpeedLabel"
+                                   Text="Average Speed"
+                                   Grid.Column="0"
+                                   Grid.Row="1" />
+                        <TextBlock x:Name="tblAverageSpeedValue"
+                                   Text="{Binding CurrentTrail.AverageSpeed,
+                                                  Mode=OneTime}"
+                                   Grid.Column="1"
+                                   Grid.Row="1" />
+                        <TextBlock x:Name="tblDurationLabel"
+                                   Text="Duration"
+                                   Grid.Column="0"
+                                   Grid.Row="2" />
+                        <TextBlock x:Name="tblDurationValue"
+                                   Text="{Binding CurrentTrail.Duration,
+                                                  Mode=OneTime}"
+                                   Grid.Column="1"
+                                   Grid.Row="2" />
+                        <TextBlock x:Name="tblMaxSpeedLabel"
+                                   Text="Max Speed"
+                                   Grid.Column="0"
+                                   Grid.Row="3" />
+                        <TextBlock x:Name="tblMaxSpeedValue"
+                                   Text="{Binding MaxSpeed,
+                                                  Mode=OneTime}"
+                                   Grid.Column="1"
+                                   Grid.Row="3" />
+                        <TextBlock x:Name="tblTotalAscendLabel"
+                                   Text="TotalAscend"
+                                   Grid.Column="0"
+                                   Grid.Row="4" />
+                        <TextBlock x:Name="tblTotalAscendValue"
+                                   Text="{Binding TotalAscend,
+                                                  Mode=OneTime}"
+                                   Grid.Column="1"
+                                   Grid.Row="4" />
+                        <TextBlock x:Name="tblTotalDescendLabel"
+                                   Text="Total Descend"
+                                   Grid.Column="0"
+                                   Grid.Row="5" />
+                        <TextBlock x:Name="tblTotalDecendValue"
+                                   Text="{Binding TotalDescend,
+                                                  Mode=OneTime}"
+                                   Grid.Column="1"
+                                   Grid.Row="5" />
+                        <usrContr:LineGraph x:Name="lnhElevation"
+                                            Grid.Row="6"
+                                            Grid.Column="0"
+                                            Grid.ColumnSpan="2">
                         
-                    </usrContr:LineGraph>
-                </Grid>
+                        </usrContr:LineGraph>
+                        <usrContr:LineGraph x:Name="lnhSpeed"
+                                            Grid.Row="7"
+                                            Grid.Column="0"
+                                            Grid.ColumnSpan="2">
+
+                        </usrContr:LineGraph>
+                    </Grid>
+                </ScrollViewer>
             </phone:PivotItem>
         </phone:Pivot>
     </Grid>

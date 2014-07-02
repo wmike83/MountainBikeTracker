@@ -23,9 +23,9 @@ namespace MountainBikeTracker_WP8.Views
 
         void SaveCurrentRidePage_Loaded(object sender, RoutedEventArgs e)
         {
-            this.usrLineGraph.AddPointsToGraph(App.SaveCurrentRideViewModel.ElevationPoints, App.SaveCurrentRideViewModel.MaxElevation, App.SaveCurrentRideViewModel.MinElevation);
+            this.lnhElevation.AddPointsToGraph(App.SaveCurrentRideViewModel.ElevationPoints, App.SaveCurrentRideViewModel.MaxElevation, App.SaveCurrentRideViewModel.MinElevation);
+            this.lnhSpeed.AddPointsToGraph(App.SaveCurrentRideViewModel.SpeedPoints, App.SaveCurrentRideViewModel.MaxSpeed, App.SaveCurrentRideViewModel.MinSpeed);
+            this.lnhSpeed.AddAverageLineToGraph(App.SaveCurrentRideViewModel.CurrentTrail.AverageSpeed, App.SaveCurrentRideViewModel.MaxSpeed, App.SaveCurrentRideViewModel.MinSpeed);
         }
-
-
     }
 }

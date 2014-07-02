@@ -91,11 +91,7 @@ namespace MountainBikeTracker_WP8.ViewModels
         }
         public SaveCurrentRideViewModel()
         {
-            this._maxElevation = double.MinValue;
-            this._minElevation = double.MaxValue;
-            this._maxSpeed = double.MinValue;
-            this._minSpeed = double.MaxValue;
-            this.GetTrailData();
+            this.Reset();
         }
 
         public void GetTrailData()
@@ -106,7 +102,7 @@ namespace MountainBikeTracker_WP8.ViewModels
                 Date = App.CurrentRideViewModel.CurrentTrail.TimeStamps.FirstOrDefault<DateTime>(),
                 City = ""//Services.ServiceLocator.GeolocatorService.LastCity
             };
-            //GeoCoordinate lastGeo = App.CurrentRideViewModel.CurrentTrail.Points.FirstOrDefault<GeoCoordinate>();
+
             double lastAltitude = App.CurrentRideViewModel.CurrentTrail.Points.FirstOrDefault<GeoCoordinate>().Altitude;
             this._elevationPoints = new double[App.CurrentRideViewModel.CurrentTrail.Points.Count];
             this._speedPoints = new double[App.CurrentRideViewModel.CurrentTrail.Points.Count];
@@ -138,6 +134,19 @@ namespace MountainBikeTracker_WP8.ViewModels
 
                 this._speedPoints[index++] = currentSpeed;
             }
+        }
+
+        internal void Reset()
+        {
+            this._elevationPoints = null;
+            this._maxElevation = double.MinValue;
+            this._maxSpeed = double.MinValue;
+            this._minElevation = double.MaxValue;
+            this._minSpeed = double.MaxValue;
+            this._speedPoints = null;
+            this._totalAscend = 0;
+            this._totalDescend = 0;
+            this.GetTrailData();
         }
     }
 }

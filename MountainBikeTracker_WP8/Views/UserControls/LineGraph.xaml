@@ -16,7 +16,7 @@
             <Canvas x:Name="cvsLineGraph"
                     Height="300"
                     Background="Blue">
-                <Polygon x:Name="plnElevation"
+                <Polygon x:Name="plnLineGraph"
                          Height="300"
                          Fill="Green"
                          Stroke="White"
