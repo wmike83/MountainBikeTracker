@@ -13,21 +13,17 @@ namespace MountainBikeTracker_WP8
 {
     public partial class App : Application
     {
-        private static Models.AppContext _ctx;
-        public static Models.AppContext CTX
+        private static Models.AppDataStore _dataStore;
+        public static Models.AppDataStore DataStore
         {
             get
             {
-                if( _ctx == null )
+                if( _dataStore == null )
                 {
-                    _ctx = new AppContext();
-                    if( !_ctx.DatabaseExists() )
-                    {
-                        _ctx.CreateDatabase();
-                    }
+                    _dataStore = new AppDataStore();
                 }
 
-                return _ctx;
+                return _dataStore;
             }
         }
 

@@ -21,16 +21,37 @@
 
         <!--TitlePanel contains the name of the application and page title-->
         <Grid x:Name="ContentPanel" Grid.Row="0" Margin="12,17,0,28">
-            <phone:LongListSelector x:Name="MainLongListSelector" Margin="0,0,-12,0" ItemsSource="{Binding Trails}" SelectionChanged="MainLongListSelector_SelectionChanged">
+            <!--<phone:LongListSelector x:Name="MainLongListSelector" Margin="0,0,-12,0" ItemsSource="{Binding Trails}" SelectionChanged="MainLongListSelector_SelectionChanged">
                 <phone:LongListSelector.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Margin="0,0,0,17">
-                            <TextBlock Text="{Binding City}" TextWrapping="Wrap" Style="{StaticResource PhoneTextExtraLargeStyle}"/>
-                            <TextBlock Text="{Binding Forest}" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
+                            <TextBlock Text="{Binding Path=Value.City}" TextWrapping="Wrap" Style="{StaticResource PhoneTextExtraLargeStyle}"/>
+                            <TextBlock Text="{Binding Path=Value.Forest}" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
+                            <TextBlock Text="{Binding Path=Key}" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
                         </StackPanel>
                     </DataTemplate>
                 </phone:LongListSelector.ItemTemplate>
-            </phone:LongListSelector>
+            </phone:LongListSelector>-->
+            <ListBox x:Name="lstActiveRiders"
+                     ItemsSource="{Binding Trails}">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel />
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBlock Text="{Binding Path=Key}"
+                                       Style="{StaticResource PhoneTextNormalStyle}" />
+                            <TextBlock Text="{Binding Path=Value.City}"
+                                       Style="{StaticResource PhoneTextExtraLargeStyle}" />
+                            <TextBlock Text="{Binding Path=Value.Forest}"
+                                       Style="{StaticResource PhoneTextExtraLargeStyle}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </Grid>
     </Grid>
 </phone:PhoneApplicationPage>

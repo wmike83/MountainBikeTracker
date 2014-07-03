@@ -56,6 +56,7 @@ namespace MountainBikeTracker_WP8.Views
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
+            App.SaveCurrentRideViewModel.TrailInfo.Date = this.dtpDate.Value ?? DateTime.Now;
             // Removing all backstack
             NavigationService.RemoveBackEntry();
             // Navigate back to Main Page

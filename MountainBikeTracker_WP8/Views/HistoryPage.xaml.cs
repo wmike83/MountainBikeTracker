@@ -16,12 +16,13 @@ namespace MountainBikeTracker_WP8.Views
         {
             InitializeComponent();
 
-            this.DataContext = App.CTX;
+            this.DataContext = App.DataStore;
         }
 
         private void MainLongListSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            MessageBox.Show("here");
+            MessageBox.Show("uh");
         }
     }
 }

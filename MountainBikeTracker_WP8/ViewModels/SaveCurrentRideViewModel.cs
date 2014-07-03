@@ -11,7 +11,7 @@ namespace MountainBikeTracker_WP8.ViewModels
     /// I will ask for a name and trail to association to the ride
     /// Also it will allow the user to finalize the file to the SkyDrive account
     /// </summary>
-    public class SaveCurrentRideViewModel
+    public class SaveCurrentRideViewModel// : BindableBase
     {
         #region Fields
         private double _totalAscend;
@@ -114,13 +114,7 @@ namespace MountainBikeTracker_WP8.ViewModels
         #region Helper Methods
         public void GetCurrentTrailData()
         {
-            this.TrailInfo = new TrailInformation()
-            {
-                Date = App.CurrentRideViewModel.CurrentTrail.TimeStamps.FirstOrDefault<DateTime>(),
-                Trail = App.CurrentRideViewModel.CurrentTrail,
-                City = "",
-                Forest = ""
-            };
+            this.TrailInfo.Trail = App.CurrentRideViewModel.CurrentTrail;
 
             double lastAltitude = App.CurrentRideViewModel.CurrentTrail.Points.FirstOrDefault<GeoCoordinate>().Altitude;
             this._elevationPoints = new double[App.CurrentRideViewModel.CurrentTrail.Points.Count];
@@ -171,6 +165,7 @@ namespace MountainBikeTracker_WP8.ViewModels
             this._speedPoints = null;
             this._totalAscend = 0;
             this._totalDescend = 0;
+            this.TrailInfo = new TrailInformation();
         }
 
         private void ExecuteCancelCommand()
@@ -182,8 +177,7 @@ namespace MountainBikeTracker_WP8.ViewModels
         private void ExecuteSaveCommand()
         {
             // Do Save Here
-            App.CTX.Trails.InsertOnSubmit(TrailInfo);
-            App.CTX.SubmitChanges();
+            App.DataStore.AddNewTrail(this.TrailInfo);
 
             this.Reset();
         }

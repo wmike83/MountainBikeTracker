@@ -50,6 +50,7 @@
                 <TextBlock x:Name="tblCurrentSpeed"
                            Text="{Binding CurrentSpeed,
                                           FallbackValue=0.0,
+                                          Mode=OneWay,
                                           StringFormat=\{0:F1\}}"
                            FontSize="200"
                            HorizontalAlignment="Right"
@@ -160,6 +161,7 @@
                                    Style="{StaticResource PhoneTextNormalStyle}" />
                         <TextBlock Text="{Binding CurrentSpeed,
                                                   FallbackValue=00.0,
+                                                  Mode=OneWay,
                                                   StringFormat=\{0:F1\}}"
                                    Grid.Column="1"
                                    HorizontalAlignment="Center"
@@ -203,6 +205,7 @@
                                    Style="{StaticResource PhoneTextNormalStyle}" />
                         <TextBlock Text="{Binding Altitude,
                                                   FallbackValue=0.00,
+                                                  Mode=OneWay,
                                                   StringFormat=\{0:F\}}"
                                    Grid.Column="3"
                                    HorizontalAlignment="Center"
