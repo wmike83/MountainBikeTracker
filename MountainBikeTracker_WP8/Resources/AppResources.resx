@@ -188,10 +188,10 @@
   <data name="MaxSpeedLabel" xml:space="preserve">
     <value>max speed</value>
   </data>
-  <data name="TotalAscend" xml:space="preserve">
+  <data name="TotalAscendLabel" xml:space="preserve">
     <value>total ascend</value>
   </data>
-  <data name="TotalDescend" xml:space="preserve">
+  <data name="TotalDescendLabel" xml:space="preserve">
     <value>total descend</value>
   </data>
 </root>

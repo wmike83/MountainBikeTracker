@@ -170,7 +170,7 @@ namespace MountainBikeTracker_WP8.Views
             //task.Body = App.User.CurrentRideViewModel.ToString();
             //task.Show();
 
-            NavigationService.Navigate(new Uri("/Views/SaveCurrentRidePage.xaml", UriKind.Relative));
+            NavigationService.Navigate(new Uri("/Views/SaveCurrentRidePage.xaml?msg=SaveButton", UriKind.Relative));
         }
         #endregion
 

@@ -261,18 +261,18 @@ namespace MountainBikeTracker_WP8.Resources {
         /// <summary>
         ///   Looks up a localized string similar to total ascend.
         /// </summary>
-        public static string TotalAscend {
+        public static string TotalAscendLabel {
             get {
-                return ResourceManager.GetString("TotalAscend", resourceCulture);
+                return ResourceManager.GetString("TotalAscendLabel", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to total descend.
         /// </summary>
-        public static string TotalDescend {
+        public static string TotalDescendLabel {
             get {
-                return ResourceManager.GetString("TotalDescend", resourceCulture);
+                return ResourceManager.GetString("TotalDescendLabel", resourceCulture);
             }
         }
         

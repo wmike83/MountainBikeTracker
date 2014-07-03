@@ -15,6 +15,13 @@ namespace MountainBikeTracker_WP8.Views
         public HistoryPage()
         {
             InitializeComponent();
+
+            this.DataContext = App.CTX;
+        }
+
+        private void MainLongListSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }

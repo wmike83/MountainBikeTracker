@@ -13,6 +13,7 @@ namespace MountainBikeTracker_WP8.ViewModels
     /// </summary>
     public class SaveCurrentRideViewModel
     {
+        #region Fields
         private double _totalAscend;
         private double _totalDescend;
         private double _maxElevation;
@@ -21,8 +22,9 @@ namespace MountainBikeTracker_WP8.ViewModels
         private double _maxSpeed;
         private double _minSpeed;
         private double[] _speedPoints;
+        #endregion
 
-        public MountainBikeTrail CurrentTrail { get; private set; }
+        #region Properties
         public TrailInformation TrailInfo { get; private set; }
         public double TotalAscend
         {
@@ -87,26 +89,37 @@ namespace MountainBikeTracker_WP8.ViewModels
                 return this._speedPoints;
             }
         }
+        public RelayCommand CancelCommand
+        {
+            get;
+            private set;
+        }
         public RelayCommand SaveCommand
         {
             get;
             private set;
         }
+        #endregion
+
+        #region Constructor
         public SaveCurrentRideViewModel()
         {
-            this.Reset();
-            this.GetTrailData();
-
+            this.CancelCommand = new RelayCommand(ExecuteCancelCommand);
             this.SaveCommand = new RelayCommand(ExecuteSaveCommand);
-        }
 
-        public void GetTrailData()
+            this.Reset();
+        }
+        #endregion
+
+        #region Helper Methods
+        public void GetCurrentTrailData()
         {
-            this.CurrentTrail = App.CurrentRideViewModel.CurrentTrail;
             this.TrailInfo = new TrailInformation()
             {
                 Date = App.CurrentRideViewModel.CurrentTrail.TimeStamps.FirstOrDefault<DateTime>(),
-                City = ""//Services.ServiceLocator.GeolocatorService.LastCity
+                Trail = App.CurrentRideViewModel.CurrentTrail,
+                City = "",
+                Forest = ""
             };
 
             double lastAltitude = App.CurrentRideViewModel.CurrentTrail.Points.FirstOrDefault<GeoCoordinate>().Altitude;
@@ -144,8 +157,11 @@ namespace MountainBikeTracker_WP8.ViewModels
                 lastAltitude = currentAltitude;
             }
         }
-
-        internal void Reset()
+        public void GetTrailData(string msg)
+        {
+            throw new NotImplementedException();
+        }
+        public void Reset()
         {
             this._elevationPoints = null;
             this._maxElevation = double.MinValue;
@@ -157,17 +173,22 @@ namespace MountainBikeTracker_WP8.ViewModels
             this._totalDescend = 0;
         }
 
-        #region Command Execute
-        /// <summary>
-        /// Command to Save data to Collection
-        /// </summary>
-        private void ExecuteSaveCommand()
+        private void ExecuteCancelCommand()
         {
-            // Prepare to save data
+            // Do Cancel Here
 
             this.Reset();
-
         }
+        private void ExecuteSaveCommand()
+        {
+            // Do Save Here
+            App.CTX.Trails.InsertOnSubmit(TrailInfo);
+            App.CTX.SubmitChanges();
+
+            this.Reset();
+        }
+        #endregion
+
 
     }
 }

@@ -73,6 +73,7 @@
                         <Button x:Name="btnCancel"
                                 Content="cancel"
                                 Grid.Column="1"
+                                Command="{Binding CancelCommand}"
                                 Click="btnCancel_Click" />
                     </Grid>
                 </Grid>
@@ -103,7 +104,7 @@
                                    Grid.Column="0"
                                    Grid.Row="0" />
                         <TextBlock x:Name="tblDistanceValue"
-                                   Text="{Binding CurrentTrail.Distance,
+                                   Text="{Binding TrailInfo.Trail.Distance,
                                                   Mode=OneTime,
                                                   StringFormat=\{0:F2\}}"
                                    Grid.Column="1"
@@ -114,7 +115,7 @@
                                    Grid.Column="0"
                                    Grid.Row="1" />
                         <TextBlock x:Name="tblAverageSpeedValue"
-                                   Text="{Binding CurrentTrail.AverageSpeed,
+                                   Text="{Binding TrailInfo.Trail.AverageSpeed,
                                                   Mode=OneTime,
                                                   StringFormat=\{0:F2\}}"
                                    Grid.Column="1"
@@ -125,7 +126,7 @@
                                    Grid.Column="0"
                                    Grid.Row="2" />
                         <TextBlock x:Name="tblDurationValue"
-                                   Text="{Binding CurrentTrail.Duration,
+                                   Text="{Binding TrailInfo.Trail.Duration,
                                                   Mode=OneTime,
                                                   StringFormat=\{0:hh\\:mm\\:ss\}}"
                                    Grid.Column="1"

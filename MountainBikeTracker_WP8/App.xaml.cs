@@ -7,11 +7,30 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using MountainBikeTracker_WP8.Resources;
+using MountainBikeTracker_WP8.Models;
 
 namespace MountainBikeTracker_WP8
 {
     public partial class App : Application
     {
+        private static Models.AppContext _ctx;
+        public static Models.AppContext CTX
+        {
+            get
+            {
+                if( _ctx == null )
+                {
+                    _ctx = new AppContext();
+                    if( !_ctx.DatabaseExists() )
+                    {
+                        _ctx.CreateDatabase();
+                    }
+                }
+
+                return _ctx;
+            }
+        }
+
         // Store current ride as singleton
         private static ViewModels.CurrentRideViewModel _currentRideViewModel = null;
         // Property for current ride as singleton
@@ -79,7 +98,6 @@ namespace MountainBikeTracker_WP8
                 // and consume battery power when the user is not using the phone.
                 PhoneApplicationService.Current.UserIdleDetectionMode = IdleDetectionMode.Disabled;
             }
-
         }
 
         // Code to execute when the application is launching (eg, from Start)
