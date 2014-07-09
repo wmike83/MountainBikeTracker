@@ -22,8 +22,7 @@ namespace MountainBikeTracker_WP8.Views
 
         private void MainLongListSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            MessageBox.Show("");
-            NavigationService.Navigate(new Uri("/Views/SaveCurrentRidePage.xaml?msg=SelectedIndex?ind=" + (lstActiveRiders.SelectedItem as Dictionary<string, TrailInformation>).Keys, UriKind.Relative));
+            NavigationService.Navigate(new Uri("/Views/SaveCurrentRidePage.xaml?msg=SelectedIndex&ind=" + lstActiveRiders.SelectedIndex, UriKind.Relative));
         }
     }
 }

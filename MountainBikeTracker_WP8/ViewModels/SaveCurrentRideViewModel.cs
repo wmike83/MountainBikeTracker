@@ -116,18 +116,28 @@ namespace MountainBikeTracker_WP8.ViewModels
         {
             this.TrailInfo.Trail = App.CurrentRideViewModel.CurrentTrail;
 
-            double lastAltitude = App.CurrentRideViewModel.CurrentTrail.Points.FirstOrDefault<GeoCoordinate>().Altitude;
-            this._elevationPoints = new double[App.CurrentRideViewModel.CurrentTrail.Points.Count];
-            this._speedPoints = new double[App.CurrentRideViewModel.CurrentTrail.Points.Count];
+            this.GetTrailInfo();
+        }
+        public void GetTrailData(ulong index)
+        {
+            this.TrailInfo = App.DataStore.Trails[index];
+
+            this.GetTrailInfo();
+        }
+        private void GetTrailInfo()
+        {
+            double lastAltitude = this.TrailInfo.Trail.Points.FirstOrDefault<GeoCoordinate>().Altitude;
+            this._elevationPoints = new double[this.TrailInfo.Trail.Points.Count];
+            this._speedPoints = new double[this.TrailInfo.Trail.Points.Count];
             int index = 0;
 
-            foreach (GeoCoordinate geo in App.CurrentRideViewModel.CurrentTrail.Points)
+            foreach (GeoCoordinate geo in this.TrailInfo.Trail.Points)
             {
                 double currentAltitude = geo.Altitude;
                 double deltaAltitude = currentAltitude - lastAltitude;
                 double currentSpeed = geo.Speed;
-                
-                if( deltaAltitude >= 0.00000000 )
+
+                if (deltaAltitude >= 0.00000000)
                     this._totalAscend += deltaAltitude;
                 else
                     this._totalDescend += (deltaAltitude * -1);
@@ -150,10 +160,6 @@ namespace MountainBikeTracker_WP8.ViewModels
 
                 lastAltitude = currentAltitude;
             }
-        }
-        public void GetTrailData(string msg)
-        {
-            throw new NotImplementedException();
         }
         public void Reset()
         {

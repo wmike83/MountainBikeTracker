@@ -178,6 +178,7 @@ namespace MountainBikeTracker_WP8.Views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+            App.CurrentRideViewModel.ResetTrail();
             Services.ServiceLocator.GeolocatorService.Start();
             App.CurrentRideViewModel.StartListening();
         }

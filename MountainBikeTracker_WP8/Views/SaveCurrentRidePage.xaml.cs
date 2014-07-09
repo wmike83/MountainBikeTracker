@@ -34,9 +34,15 @@ namespace MountainBikeTracker_WP8.Views
                             App.SaveCurrentRideViewModel.GetCurrentTrailData();
                             break;
                         }
+                    case"SelectedIndex":
+                        {
+                            string ind = "";
+                            if( NavigationContext.QueryString.TryGetValue( "ind", out ind ) )
+                                App.SaveCurrentRideViewModel.GetTrailData(Convert.ToUInt64(ind));
+                            break;
+                        }
                     default:
                          {
-                             App.SaveCurrentRideViewModel.GetTrailData(msg);
                              break;
                          }
                 }
