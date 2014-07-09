@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using MountainBikeTracker_WP8.Models;
 
 namespace MountainBikeTracker_WP8.Views
 {
@@ -21,8 +22,8 @@ namespace MountainBikeTracker_WP8.Views
 
         private void MainLongListSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            MessageBox.Show("here");
-            MessageBox.Show("uh");
+            MessageBox.Show("");
+            NavigationService.Navigate(new Uri("/Views/SaveCurrentRidePage.xaml?msg=SelectedIndex?ind=" + (lstActiveRiders.SelectedItem as Dictionary<string, TrailInformation>).Keys, UriKind.Relative));
         }
     }
 }
