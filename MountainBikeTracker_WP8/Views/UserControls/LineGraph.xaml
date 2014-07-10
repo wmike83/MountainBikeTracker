@@ -6,26 +6,27 @@
     mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
-    Foreground="{StaticResource PhoneForegroundBrush}"
-    d:DesignHeight="480" d:DesignWidth="480">
+    Foreground="{StaticResource PhoneForegroundBrush}">
     
     <Grid x:Name="LayoutRoot"
           Background="{StaticResource PhoneChromeBrush}">
-        <Border BorderBrush="White"
-                      BorderThickness="2">
-            <Canvas x:Name="cvsLineGraph"
-                    Height="300"
-                    Background="Blue">
-                <Polygon x:Name="plnLineGraph"
-                         Height="300"
-                         Fill="Green"
-                         Stroke="White"
-                         StrokeThickness="2"
-                         Width="{Binding ActualWidth,
-                                         ElementName=cvsLineGraph,
-                                         Mode=OneWay}">
-                </Polygon>
-            </Canvas>
-        </Border>
+        <ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto" >
+            <Border BorderBrush="White"
+                    BorderThickness="1" Margin="12">
+                <Canvas x:Name="cvsLineGraph"
+                        Height="300"
+                        Background="#FF9ECDF6">
+                    <Polygon x:Name="plnLineGraph"
+                             Height="300"
+                             Fill="#FF84FF84"
+                             Stroke="White"
+                             StrokeThickness="1"
+                             Width="{Binding ActualWidth,
+                                             ElementName=cvsLineGraph,
+                                             Mode=OneWay}">
+                    </Polygon>
+                </Canvas>
+            </Border>
+        </ScrollViewer>
     </Grid>
 </UserControl>

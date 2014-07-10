@@ -83,7 +83,7 @@
             </phone:PivotItem>
 
             <!--Pivot item two-->
-            <phone:PivotItem Header="stats">
+            <phone:PivotItem x:Name="pivotItemStats" Header="stats">
                 <ScrollViewer>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -170,8 +170,9 @@
                         <usrContr:LineGraph x:Name="lnhElevation"
                                             Grid.Row="6"
                                             Grid.Column="0"
-                                            Grid.ColumnSpan="2">
-                        
+                                            Grid.ColumnSpan="2"
+                                            Width="{Binding ActualWidth, ElementName=pivotItemStats, Mode=OneWay}">
+
                         </usrContr:LineGraph>
                         <usrContr:LineGraph x:Name="lnhSpeed"
                                             Grid.Row="7"
