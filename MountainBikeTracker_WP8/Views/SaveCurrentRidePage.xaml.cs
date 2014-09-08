@@ -54,21 +54,21 @@ namespace MountainBikeTracker_WP8.Views
         }
         void SaveCurrentRidePage_Loaded(object sender, RoutedEventArgs e)
         {
-            double[] values1 = new double[1000];
-            double[] values2 = new double[1000];
-            Random rand = new Random();
-            for (int i = 0; i < 1000; i++ )
-            {
-                values1[i] = rand.Next(2, 25);
-                values2[i] = rand.Next(0, 12);
-            }
-            this.lnhElevation.AddPointsToGraph(values1, values2.Max(), values2.Min());
-            this.lnhSpeed.AddPointsToGraph(values2, values2.Max(), values2.Min());
-            this.lnhSpeed.AddAverageLineToGraph(values2.Average(), values2.Max(), values2.Min());
+            //double[] values1 = new double[1000];
+            //double[] values2 = new double[1000];
+            //Random rand = new Random();
+            //for (int i = 0; i < 1000; i++ )
+            //{
+            //    values1[i] = rand.Next(2, 25);
+            //    values2[i] = rand.Next(0, 12);
+            //}
+            //this.lnhElevation.AddPointsToGraph(values1, values2.Max(), values2.Min());
+            //this.lnhSpeed.AddPointsToGraph(values2, values2.Max(), values2.Min());
+            //this.lnhSpeed.AddAverageLineToGraph(values2.Average(), values2.Max(), values2.Min());
 
-            //this.lnhElevation.AddPointsToGraph(App.SaveCurrentRideViewModel.ElevationPoints, App.SaveCurrentRideViewModel.MaxElevation, App.SaveCurrentRideViewModel.MinElevation);
-            //this.lnhSpeed.AddPointsToGraph(App.SaveCurrentRideViewModel.SpeedPoints, App.SaveCurrentRideViewModel.MaxSpeed, App.SaveCurrentRideViewModel.MinSpeed);
-            //this.lnhSpeed.AddAverageLineToGraph((App.SaveCurrentRideViewModel.TrailInfo.Trail.AverageSpeed * 0.4470400004105615), App.SaveCurrentRideViewModel.MaxSpeed, App.SaveCurrentRideViewModel.MinSpeed);
+            this.lnhElevation.AddPointsToGraph(App.SaveCurrentRideViewModel.ElevationPoints, App.SaveCurrentRideViewModel.MaxElevation, App.SaveCurrentRideViewModel.MinElevation);
+            this.lnhSpeed.AddPointsToGraph(App.SaveCurrentRideViewModel.SpeedPoints, App.SaveCurrentRideViewModel.MaxSpeed, App.SaveCurrentRideViewModel.MinSpeed);
+            this.lnhSpeed.AddAverageLineToGraph((App.SaveCurrentRideViewModel.TrailInfo.Trail.AverageSpeed * 0.4470400004105615), App.SaveCurrentRideViewModel.MaxSpeed, App.SaveCurrentRideViewModel.MinSpeed);
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)

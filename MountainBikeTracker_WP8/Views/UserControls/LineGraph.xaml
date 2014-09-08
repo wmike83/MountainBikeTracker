@@ -7,7 +7,7 @@
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}">
-    
+
     <Grid x:Name="LayoutRoot"
           Background="{StaticResource PhoneChromeBrush}">
         <ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto" >
@@ -15,7 +15,11 @@
                     BorderThickness="1" Margin="12">
                 <Canvas x:Name="cvsLineGraph"
                         Height="300"
-                        Background="#FF9ECDF6">
+                        Background="#FF9ECDF6"
+                        RenderTransformOrigin="0.5,0.5">
+                    <Canvas.RenderTransform>
+                        <CompositeTransform ScaleY="-1"/>
+                    </Canvas.RenderTransform>
                     <Polygon x:Name="plnLineGraph"
                              Height="300"
                              Fill="#FF84FF84"

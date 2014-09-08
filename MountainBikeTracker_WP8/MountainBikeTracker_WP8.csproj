@@ -96,9 +96,11 @@
     <Compile Include="Helpers\ApplicationBarHelper.cs" />
     <Compile Include="Helpers\BindableBase.cs" />
     <Compile Include="Helpers\Converters\CurrentSpeedToForegroundConverter.cs" />
+    <Compile Include="Helpers\GPXMarkup.cs" />
     <Compile Include="Helpers\RelayCommand.cs" />
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="Models\AppDataStore.cs" />
+    <Compile Include="Models\GPXMarkupWriter.cs" />
     <Compile Include="Models\MountainBikeTrail.cs" />
     <Compile Include="Models\TrailInformation.cs" />
     <Compile Include="Services\GeolocatorService.cs" />
