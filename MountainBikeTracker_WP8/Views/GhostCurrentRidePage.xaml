@@ -53,8 +53,7 @@
                 <!-- run statistics -->
                 <Grid Background="#99000000"
                       Margin="20"
-                      VerticalAlignment="Bottom"
-                      Tap="grdMapStatistics_Tap">
+                      VerticalAlignment="Bottom">
                     <Grid Margin="12">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="40" />
