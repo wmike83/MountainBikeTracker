@@ -14,7 +14,7 @@ namespace MountainBikeTracker_WP8.Models
 {
     public class GPXMarkupWriter
     {
-        public string GetGPXMarkup(GeoCoordinateCollection geos, List<DateTime> times, string description, string name)
+        public static string GetGPXMarkup(GeoCoordinateCollection geos, List<DateTime> times, string description, string name)
         {
             GPXMarkup m = new GPXMarkup(geos, times, description, name);
 
@@ -32,12 +32,16 @@ namespace MountainBikeTracker_WP8.Models
         }
 
         [XmlRoot("gpx", Namespace = "http://www.topografix.com/GPX/1/1")]
-        internal class GPXMarkup
+        public class GPXMarkup
         {
             [XmlElement("trk")]
-            internal GPXTrack Track { get; set; }
+            public GPXTrack Track { get; set; }
 
-            internal GPXMarkup(GeoCoordinateCollection geos, List<DateTime> times, string description, string name)
+            public GPXMarkup()
+            {
+            }
+
+            public GPXMarkup(GeoCoordinateCollection geos, List<DateTime> times, string description, string name)
             {
                 this.Track = new GPXTrack();
                 this.Track.Description = description;
@@ -59,32 +63,32 @@ namespace MountainBikeTracker_WP8.Models
             }
         }
 
-        internal class GPXTrack
+        public class GPXTrack
         {
             [XmlElement("name")]
-            internal string Name { get; set; }
+            public string Name { get; set; }
             
             [XmlElement("desc")]
-            internal string Description { get; set; }
+            public string Description { get; set; }
             
             [XmlArray("trkseg")]
             [XmlArrayItem("trkpt")]
-            internal GPXPoint[] TrackSegment { get; set; }
+            public GPXPoint[] TrackSegment { get; set; }
         }
 
-        internal class GPXPoint
+        public class GPXPoint
         {
             [XmlAttribute("lat")]
-            internal double Latitude { get; set; }
+            public double Latitude { get; set; }
             
             [XmlAttribute("lon")]
-            internal double Longitude { get; set; }
+            public double Longitude { get; set; }
             
             [XmlElement("ele")]
-            internal double Elevation { get; set; }
+            public double Elevation { get; set; }
             
             [XmlElement("time")]
-            internal DateTime Time { get; set; }
+            public DateTime Time { get; set; }
         }
     }
 }

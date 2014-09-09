@@ -7,6 +7,8 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using MountainBikeTracker_WP8.Models;
+using Microsoft.Phone.Tasks;
 
 namespace MountainBikeTracker_WP8.Views
 {
@@ -80,10 +82,23 @@ namespace MountainBikeTracker_WP8.Views
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             App.SaveCurrentRideViewModel.TrailInfo.Date = this.dtpDate.Value ?? DateTime.Now;
+
+            string xml = GPXMarkupWriter.GetGPXMarkup(App.SaveCurrentRideViewModel.TrailInfo.Trail.Points, App.SaveCurrentRideViewModel.TrailInfo.Trail.TimeStamps, "Description", App.SaveCurrentRideViewModel.TrailInfo.Forest);
+            var task = new EmailComposeTask();
+            task.To = App.SaveCurrentRideViewModel.EmailAddress;
+            task.Subject = "Your ride on " + App.SaveCurrentRideViewModel.TrailInfo.Date.ToShortDateString();
+            task.Body = xml;
+            task.Show();
+            
             // Removing all backstack
             NavigationService.RemoveBackEntry();
             // Navigate back to Main Page
             NavigationService.GoBack();
+        }
+
+        private void btnGhost_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

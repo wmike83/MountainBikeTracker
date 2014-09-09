@@ -49,7 +49,6 @@ namespace MountainBikeTracker_WP8.ViewModels
             this.Altitude = 0;
             this.CurrentSpeed = 0;
         }
-
         #endregion
 
         #region Helper Methods

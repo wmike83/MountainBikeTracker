@@ -22,6 +22,7 @@ namespace MountainBikeTracker_WP8.ViewModels
         private double _maxSpeed;
         private double _minSpeed;
         private double[] _speedPoints;
+        private string _emailAddress;
         #endregion
 
         #region Properties
@@ -30,7 +31,7 @@ namespace MountainBikeTracker_WP8.ViewModels
         {
             get
             {
-                return MountainBikeTrail.ConvertMetersToFeet( this._totalAscend );
+                return MountainBikeTrail.ConvertMetersToFeet(this._totalAscend);
             }
         }
         public double TotalDescend
@@ -99,6 +100,31 @@ namespace MountainBikeTracker_WP8.ViewModels
             get;
             private set;
         }
+        public RelayCommand GhostCommand
+        {
+            get;
+            private set;
+        }
+        public string EmailAddress
+        {
+            get { return this._emailAddress; }
+            set { this._emailAddress = value; }
+        }
+        public System.Windows.Visibility IsNotSaved
+        {
+            get;
+            private set;
+        }
+        public System.Windows.Visibility IsSaved
+        {
+            get
+            {
+                if (this.IsNotSaved == System.Windows.Visibility.Visible)
+                    return System.Windows.Visibility.Collapsed;
+                else
+                    return System.Windows.Visibility.Visible;
+            }
+        }
         #endregion
 
         #region Constructor
@@ -106,6 +132,7 @@ namespace MountainBikeTracker_WP8.ViewModels
         {
             this.CancelCommand = new RelayCommand(ExecuteCancelCommand);
             this.SaveCommand = new RelayCommand(ExecuteSaveCommand);
+            this.GhostCommand = new RelayCommand(ExecuteGhostCommand);
 
             this.Reset();
         }
@@ -114,12 +141,14 @@ namespace MountainBikeTracker_WP8.ViewModels
         #region Helper Methods
         public void GetCurrentTrailData()
         {
+            this.IsNotSaved = System.Windows.Visibility.Visible;
             this.TrailInfo.Trail = App.CurrentRideViewModel.CurrentTrail;
 
             this.GetTrailInfo();
         }
         public void GetTrailData(ulong index)
         {
+            this.IsNotSaved = System.Windows.Visibility.Collapsed;
             this.TrailInfo = App.DataStore.Trails[index];
 
             this.GetTrailInfo();
@@ -190,5 +219,10 @@ namespace MountainBikeTracker_WP8.ViewModels
         #endregion
 
 
+
+        public void ExecuteGhostCommand()
+        {
+            // Do Ghost Command Here
+        }
     }
 }
