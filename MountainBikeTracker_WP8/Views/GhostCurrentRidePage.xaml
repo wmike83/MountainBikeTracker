@@ -55,78 +55,42 @@
                       Margin="20"
                       VerticalAlignment="Bottom">
                     <Grid Margin="12">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="40" />
-                            <RowDefinition Height="40" />
-                        </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
 
-                        <!-- distance -->
-                        <TextBlock Text="{Binding Path=LocalizedResources.SpeedLabel,
+                        <!-- Speed -->
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="{Binding CurrentSpeed,
+                                                      FallbackValue=00.0,
+                                                      Mode=OneWay,
+                                                      StringFormat=\{0:F1\}}"
+                                       HorizontalAlignment="Right"
+                                       Foreground="{Binding CurrentSpeed,
+                                                            Converter={StaticResource CurrentSpeedToForegroundConverter},
+                                                            Mode=OneWay}"
+                                       Style="{StaticResource PhoneTextExtraLargeStyle}" />
+                            <TextBlock Text="{Binding Path=LocalizedResources.SpeedLabel,
                                                   Source={StaticResource LocalizedStrings}}"
-                                   Grid.Row="0"
-                                   Grid.Column="0"
-                                   Style="{StaticResource PhoneTextNormalStyle}" />
-                        <TextBlock Text="{Binding CurrentSpeed,
-                                                  FallbackValue=00.0,
-                                                  Mode=OneWay,
-                                                  StringFormat=\{0:F1\}}"
-                                   Grid.Row="0"
-                                   Grid.Column="1"
-                                   HorizontalAlignment="Center"
-                                   Foreground="{Binding CurrentSpeed,
-                                                        Converter={StaticResource CurrentSpeedToForegroundConverter},
-                                                        Mode=OneWay}"
-                                   Style="{StaticResource PhoneTextLargeStyle}" />
-
-                        <!-- time -->
-                        <TextBlock Text="AverageSpeed"
-                                   Grid.Row="0"
-                                   Grid.Column="2"
-                                   Style="{StaticResource PhoneTextNormalStyle}" />
-                        <TextBlock Text="{Binding CurrentTrail.Average,
-                                                  FallbackValue=0.00,
-                                                  Mode=OneWay}"
-                                   Grid.Row="0"
-                                   Grid.Column="3"
-                                   HorizontalAlignment="Center"
-                                   Style="{StaticResource PhoneTextLargeStyle}" />
-
-                        <!-- calories -->
-                        <TextBlock Text="{Binding Path=LocalizedResources.DistLabel,
-                                                  Source={StaticResource LocalizedStrings}}"
-                                   Grid.Row="1"
-                                   Grid.Column="0"
-                                   Style="{StaticResource PhoneTextNormalStyle}" />
-                        <TextBlock Text="{Binding CurrentTrail.Distance,
-                                                  FallbackValue=0.00,
-                                                  Mode=OneWay,
-                                                  StringFormat=\{0:F\}}"
-                                   Grid.Row="1"
-                                   Grid.Column="1"
-                                   HorizontalAlignment="Center"
-                                   Style="{StaticResource PhoneTextLargeStyle}" />
+                                       HorizontalAlignment="Right"
+                                       Style="{StaticResource PhoneTextNormalStyle}" />
+                        </StackPanel>
 
                         <!-- pace -->
-                        <TextBlock Text="{Binding Path=LocalizedResources.DistLabel,
-                                                  Source={StaticResource LocalizedStrings}}"
-                                   Grid.Row="1"
-                                   Grid.Column="2"
-                                   Style="{StaticResource PhoneTextNormalStyle}" />
-                        <TextBlock Text="{Binding GhostTrail.Distance,
-                                                  FallbackValue=0.00,
-                                                  Mode=OneWay,
-                                                  StringFormat=\{0:F\}}"
-                                   Grid.Row="1"
-                                   Grid.Column="3"
-                                   HorizontalAlignment="Center"
-                                   Style="{StaticResource PhoneTextLargeStyle}" />
-
+                        <StackPanel Grid.Column="1">
+                            <TextBlock Text="{Binding CurrentDistance,
+                                                      FallbackValue=0.00,
+                                                      Mode=OneWay,
+                                                      StringFormat=\{0:F\}}"
+                                       HorizontalAlignment="Right"
+                                       Style="{StaticResource PhoneTextExtraLargeStyle}" />
+                            <TextBlock Text="{Binding Path=LocalizedResources.DistLabel,
+                                                      Source={StaticResource LocalizedStrings}}"
+                                       HorizontalAlignment="Right"
+                                       Style="{StaticResource PhoneTextNormalStyle}" />
+                        </StackPanel>
+                        
                     </Grid>
                 </Grid>
             </Grid>

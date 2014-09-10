@@ -113,7 +113,7 @@ namespace MountainBikeTracker_WP8.ViewModels
         {
             if (e.PropertyName == "CurrentTrail")
             {
-                GeoCoordinate geoPoint = this.CurrentTrail.Points.Last();
+                GeoCoordinate geoPoint = App.CurrentRideViewModel.CurrentTrail.Points.Last();
                 App.CurrentRideViewModel.CurrentLocation = geoPoint;
                 App.CurrentRideViewModel.CurrentSpeed = MountainBikeTrail.ConvertMetersPerSecondToMilesPerHour(geoPoint.Speed);
                 App.CurrentRideViewModel.Altitude = MountainBikeTrail.ConvertMetersToFeet(geoPoint.Altitude);

@@ -41,6 +41,20 @@ namespace MountainBikeTracker_WP8
             }
         }
 
+        // Store current ride as singleton
+        private static ViewModels.GhostCurrentRideViewModel _ghostCurrentRideViewModel = null;
+        // Property for current ride as singleton
+        public static ViewModels.GhostCurrentRideViewModel GhostCurrentRideViewModel
+        {
+            get
+            {
+                if (_ghostCurrentRideViewModel == null)
+                    _ghostCurrentRideViewModel = new ViewModels.GhostCurrentRideViewModel();
+
+                return _ghostCurrentRideViewModel;
+            }
+        }
+
         private static ViewModels.SaveCurrentRideViewModel _saveCurrentRideViewModel = null;
         public static ViewModels.SaveCurrentRideViewModel SaveCurrentRideViewModel
         {

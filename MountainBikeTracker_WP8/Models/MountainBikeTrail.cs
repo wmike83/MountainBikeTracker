@@ -180,7 +180,7 @@ namespace MountainBikeTracker_WP8.Models
         {
             return meters * 3.28084;
         }
-        private static double ConvertMetersToMiles(double meters)
+        public static double ConvertMetersToMiles(double meters)
         {
             return meters * 0.000632371;
         }
