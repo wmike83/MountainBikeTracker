@@ -93,25 +93,28 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\ProgressBarHelper.cs" />
     <Compile Include="Helpers\ApplicationBarHelper.cs" />
-    <Compile Include="Helpers\BindableBase.cs" />
-    <Compile Include="Helpers\Converters\CurrentSpeedToForegroundConverter.cs" />
-    <Compile Include="Helpers\RelayCommand.cs" />
+    <Compile Include="Models\HistoryStorage.cs" />
+    <Compile Include="Models\StorageBase.cs" />
+    <Compile Include="Views\Converters\CurrentSpeedToForegroundConverter.cs" />
     <Compile Include="LocalizedStrings.cs" />
-    <Compile Include="Models\AppDataStore.cs" />
     <Compile Include="Models\GPXMarkupWriter.cs" />
     <Compile Include="Models\MountainBikeTrail.cs" />
     <Compile Include="Models\TrailInformation.cs" />
     <Compile Include="Services\GeolocatorService.cs" />
+    <Compile Include="Services\IsolatedStorageService.cs" />
     <Compile Include="Services\ServiceLocator.cs" />
+    <Compile Include="Services\StorageService.cs" />
+    <Compile Include="ViewModels\BindableBase.cs" />
     <Compile Include="ViewModels\CurrentRideViewModel.cs" />
-    <Compile Include="ViewModels\GhostCurrentRideViewModel.cs" />
-    <Compile Include="ViewModels\SaveCurrentRideViewModel.cs" />
+    <Compile Include="ViewModels\DetailsRideViewModel.cs" />
+    <Compile Include="ViewModels\HistoryViewModel.cs" />
     <Compile Include="Views\CurrentRidePage.xaml.cs">
       <DependentUpon>CurrentRidePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\GhostCurrentRidePage.xaml.cs">
-      <DependentUpon>GhostCurrentRidePage.xaml</DependentUpon>
+    <Compile Include="Views\DetailsRidePage.xaml.cs">
+      <DependentUpon>DetailsRidePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\HistoryPage.xaml.cs">
       <DependentUpon>HistoryPage.xaml</DependentUpon>
@@ -125,12 +128,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AppResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Views\SaveCurrentRidePage.xaml.cs">
-      <DependentUpon>SaveCurrentRidePage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\UserControls\LineGraph.xaml.cs">
-      <DependentUpon>LineGraph.xaml</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -138,10 +135,10 @@
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
     <Page Include="Views\CurrentRidePage.xaml">
-      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\GhostCurrentRidePage.xaml">
+    <Page Include="Views\DetailsRidePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -150,14 +147,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MainPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\SaveCurrentRidePage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\UserControls\LineGraph.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -171,9 +160,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\AppBar\appbar.delete.rest.png" />
+    <Content Include="Assets\AppBar\appbar.map.lock.png" />
+    <Content Include="Assets\AppBar\appbar.map.unlock.png" />
     <Content Include="Assets\AppBar\appbar.stop.rest.png" />
     <Content Include="Assets\AppBar\appbar.transport.pause.rest.png" />
     <Content Include="Assets\AppBar\appbar.transport.play.rest.png" />
+    <Content Include="Assets\AppBar\map.lock.png" />
     <Content Include="Assets\ApplicationIcon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -209,6 +201,9 @@
     <Reference Include="Microsoft.Phone.Controls, Version=8.0.0.0, Culture=neutral, PublicKeyToken=24eec0d8c86cda1e, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Phone.Controls.Toolkit">
       <HintPath>..\packages\WPtoolkit.4.2013.08.16\lib\wp8\Microsoft.Phone.Controls.Toolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.6\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />

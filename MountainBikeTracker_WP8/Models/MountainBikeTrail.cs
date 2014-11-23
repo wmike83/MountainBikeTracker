@@ -1,5 +1,5 @@
 ﻿using Microsoft.Phone.Maps.Controls;
-using MountainBikeTracker_WP8.Helpers;
+using MountainBikeTracker_WP8.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Device.Location;
@@ -11,49 +11,50 @@ namespace MountainBikeTracker_WP8.Models
     {
         #region Fields
         // Data that describes ride
-        private double _averageSpeed;
-        private double _distance;
-        private GeoCoordinateCollection _points = new GeoCoordinateCollection();
-        private TimeSpan _duration;
-        private TimeSpan _totalTime;
-        private List<DateTime> _timeStamps = new List<DateTime>();
+        private double averageSpeed; // Measured in meters per second
+        private double distance; // Measured in meters
+        private GeoCoordinateCollection points = new GeoCoordinateCollection();
+        private TimeSpan duration;
+        private TimeSpan totalTime;
+        private List<DateTime> timeStamps = new List<DateTime>();
 
         // Time tracking objects
-        private long _startTime;
-        private long _lastTime;
+        private long startTime;
+        private long lastTime;
         #endregion
 
         #region Properties
         public double AverageSpeed
         {
-            get { return this._averageSpeed; }
-            private set { this._averageSpeed = value; }
+            get { return this.averageSpeed; }
+            set { this.averageSpeed = value; }
         }
         public double Distance
         {
-            get { return this._distance; }
-            private set { this._distance = value; }
+            get { return this.distance; }
+            set { this.distance = value; }
         }
         public TimeSpan Duration
         {
-            get { return this._duration; }
-            private set { this._duration = value; }
+            get { return this.duration; }
+            set { this.SetProperty(ref this.duration, value); }
         }
         public TimeSpan TotalTime
         {
-            get { return this._totalTime; }
-            private set { this._totalTime = value; }
+            get { return this.totalTime; }
+            set { this.SetProperty(ref this.totalTime, value); }
         }
         public GeoCoordinateCollection Points
         {
-            get { return this._points; }
-            private set { this._points = value; }
+            get { return this.points; }
+            set { this.points = value; }
         }
         public List<DateTime> TimeStamps
         {
-            get { return this._timeStamps; }
-            private set { this._timeStamps = value; }
+            get { return this.timeStamps; }
+            set { this.timeStamps = value; }
         }
+        public int TrailID { get; set; }
         #endregion
 
         #region Constructor
@@ -80,51 +81,20 @@ namespace MountainBikeTracker_WP8.Models
             this.AverageSpeed = 0;
             this.Distance = 0;
             this.Duration = new TimeSpan();
-            this.TotalTime = new TimeSpan();
             this.Points.Clear();
             this.TimeStamps.Clear();
 
-            this._startTime = 0;
-            this._lastTime = 0;
+            this.startTime = 0;
+            this.lastTime = 0;
         }
-        #endregion
-
-        #region GeolocatorService Helper Methods
-        public void Start()
-        {
-            // Start Geolocator and registering to event Position Changed
-            Services.ServiceLocator.GeolocatorService.OnPositionChanged = this.OnPositionChanged + Services.ServiceLocator.GeolocatorService.OnPositionChanged;
-
-            // Started new Tracking
-            if (this.Duration.TotalMilliseconds == 0)
-            {
-                this._startTime = DateTime.Now.TimeOfDay.Ticks;
-                this._lastTime = this._startTime;
-            }
-            else // if resuming old tracking
-            {
-                this._lastTime = DateTime.Now.TimeOfDay.Ticks;
-            }
-
-            this.OnPositionChanged(Services.ServiceLocator.GeolocatorService.LastPoint);
-        }
-        public void Pause()
-        {
-            // Pausing Geolocator and unregistering to event Position Changed
-            Services.ServiceLocator.GeolocatorService.OnPositionChanged -= this.OnPositionChanged;
-        }
-        #endregion
-
-        #region GeolocatorService Event Listener
-        private void OnPositionChanged(Geocoordinate obj)
+        public GeoCoordinate AddNewPoint(Geocoordinate obj)
         {
             // Getting new and last GeoCoordinate objects
             GeoCoordinate newPoint = MountainBikeTrail.CreateGeoCoordinate(obj);
             GeoCoordinate lastPoint = this.Points.Count > 0 ? this.Points[this.Points.Count - 1] : newPoint;
 
             // Update the new distance
-            double distance = MountainBikeTrail.ConvertMetersToMiles(lastPoint.GetDistanceTo(newPoint));
-            //double distance = MountainBikeTrail.CalculateDistance(lastPoint, newPoint);
+            double distance = lastPoint.GetDistanceTo(newPoint);
 
             this.Distance += distance;
 
@@ -132,14 +102,14 @@ namespace MountainBikeTracker_WP8.Models
             long newTime = obj.Timestamp.TimeOfDay.Ticks;
             // Update the duration
             // If new time is later than old time
-            if (newTime > this._lastTime)
+            if (newTime > this.lastTime)
             {
-                this.Duration += TimeSpan.FromTicks(newTime - this._lastTime);
-                this._lastTime = newTime;
+                this.Duration += TimeSpan.FromTicks(newTime - this.lastTime);
+                this.lastTime = newTime;
             }
 
             // Update the new average speed
-            double averageSpeed = this.Distance / this.Duration.TotalHours;
+            double averageSpeed = this.Distance / this.Duration.TotalSeconds;
             this.AverageSpeed = double.IsNaN(averageSpeed) ? 0 : averageSpeed;
 
             // Update the points
@@ -148,7 +118,24 @@ namespace MountainBikeTracker_WP8.Models
             // Update the timestamps
             this.TimeStamps.Add(new DateTime(obj.Timestamp.LocalDateTime.Ticks));
 
-            this.OnPropertyChanged( "CurrentTrail" );
+            this.TotalTime = new TimeSpan(this.lastTime - this.startTime);
+            return newPoint;
+        }
+        #endregion
+
+        #region GeolocatorService Helper Methods
+        public void Start()
+        {
+            // Started new Tracking
+            if (this.Duration.TotalMilliseconds == 0)
+            {
+                this.startTime = DateTime.Now.TimeOfDay.Ticks;
+                this.lastTime = this.startTime;
+            }
+            else // if resuming old tracking
+            {
+                this.lastTime = DateTime.Now.TimeOfDay.Ticks;
+            }
         }
         #endregion
 
@@ -188,7 +175,7 @@ namespace MountainBikeTracker_WP8.Models
         public static Random rand = new Random();
         public static double lastAltitude = double.MinValue;
         public static double lastSpeed = double.MinValue;
-        
+
         public static GeoCoordinate CreateGeoCoordinate(Geocoordinate geocoordinate)
         {
             // Removing all double? to values or zero
@@ -203,20 +190,25 @@ namespace MountainBikeTracker_WP8.Models
                 VerticalAccuracy = (geocoordinate.AltitudeAccuracy.HasValue && !double.IsNaN(geocoordinate.AltitudeAccuracy.Value)) ? geocoordinate.AltitudeAccuracy.Value : 0
             };
 
-            //if (lastAltitude == double.MinValue)
-            //    lastAltitude = 133.4;
-            //if (lastSpeed == double.MinValue)
-            //    lastSpeed = 5.3;
+            // For testing using debugger
+            if (System.Diagnostics.Debugger.IsAttached)
+            {
+                if (lastAltitude == double.MinValue)
+                    lastAltitude = 133.4;
+                if (lastSpeed == double.MinValue)
+                    lastSpeed = 5.3;
 
-            //location.Altitude = ((rand.NextDouble() - 0.5) * 10) + lastAltitude;
-            //location.Speed = ((rand.NextDouble() - 0.5) * 3) + lastSpeed;
+                location.Altitude = ((rand.NextDouble() - 0.5) * 10) + lastAltitude;
+                location.Speed = ((rand.NextDouble() - 0.5) * 3) + lastSpeed;
 
-            //lastAltitude = location.Altitude;
-            //lastSpeed = location.Speed;
+                lastAltitude = location.Altitude;
+                lastSpeed = location.Speed;
+            }
 
             return location;
         }
         #endregion
 
     }
+
 }

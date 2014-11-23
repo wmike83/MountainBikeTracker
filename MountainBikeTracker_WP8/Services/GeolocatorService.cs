@@ -1,17 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MountainBikeTracker_WP8.Resources;
+using System;
 using Windows.Devices.Geolocation;
 
 namespace MountainBikeTracker_WP8.Services
 {
-    class GeolocatorService
+    public class GeolocatorService
     {
+        #region Singleton Instance
+        private static GeolocatorService _instance = null;
+        public static GeolocatorService Instance
+        { get { return _instance ?? (_instance = new GeolocatorService()); } }
+        #endregion
+
+        #region Constructor
+        private GeolocatorService()
+        {
+        }
+        #endregion
+
         #region Fields
-        private Geolocator _locator;
-        private Geoposition _lastPosition;
+        private Geolocator locator;
+        private Geoposition lastPosition;
         #endregion
 
         #region Properties
@@ -21,7 +30,10 @@ namespace MountainBikeTracker_WP8.Services
         {
             get
             {
-                return this._lastPosition.Coordinate;
+                if (this.lastPosition == null)
+                    return null;
+                else
+                    return this.lastPosition.Coordinate;
             }
         }
         public string LastCity
@@ -33,57 +45,74 @@ namespace MountainBikeTracker_WP8.Services
         }
         #endregion
 
-        #region Constructor
-        public GeolocatorService()
-        {
-        }
-        #endregion
-
         #region Helper Methods
         public void Pause()
         {
-            if (HasStarted())
-            {
-                this._locator.PositionChanged -= this._locator_PositionChanged;
-            }
+            if (this.CanStart())
+                if (this.HasStarted())
+                    this.locator.PositionChanged -= this.locator_PositionChanged;
         }
-
         public void Start()
         {
-            if (HasStarted())
-                this._locator.PositionChanged += this._locator_PositionChanged;
+            if (this.CanStart())
+                if (this.HasStarted())
+                    this.locator.PositionChanged += this.locator_PositionChanged;
+        }
+        public bool CanStart()
+        {
+            bool consent;
+            bool consentExist = ServiceLocator.IsolatedStorageService
+                .TryGetValue(AppResources.LocationConsentText, out consent);
+            return consentExist && consent;
         }
         public bool HasStarted()
         {
-            if (this._locator == null)
+            if (this.locator == null)
             {
-                this._locator = new Geolocator();
-                this._locator.DesiredAccuracy = PositionAccuracy.High;
-                this._locator.DesiredAccuracyInMeters = 5;
-                this._locator.MovementThreshold = 1;
+                this.locator = new Geolocator();
+                this.locator.DesiredAccuracy = PositionAccuracy.High;
+                this.locator.DesiredAccuracyInMeters = 5;
+                this.locator.MovementThreshold = 1;
 
-                this._locator.StatusChanged += this._locator_StatusChanged;
+                this.locator.StatusChanged += this.locator_StatusChanged;
 
                 return false;
             }
-            return true;
+            else if (this.lastPosition == null)
+                return false;
+            else
+                return true;
+        }
+        public void Dispose()
+        {
+            Object thisLock = new Object();
+
+            lock (thisLock)
+            {
+                if (this.locator != null)
+                {
+                    if (this.LastPoint != null)
+                        this.locator.StatusChanged -= this.locator_StatusChanged;
+                    this.locator.PositionChanged -= this.locator_PositionChanged;
+
+                    this.locator = null;
+                }
+            }
         }
         #endregion
 
         #region Events
-        private void _locator_PositionChanged(Geolocator sender, PositionChangedEventArgs args)
+        private void locator_PositionChanged(Geolocator sender, PositionChangedEventArgs args)
         {
-            this._lastPosition = args.Position;
+            this.lastPosition = args.Position;
             if (this.OnPositionChanged != null)
-            {
                 this.OnPositionChanged(args.Position.Coordinate);
-            }
         }
-        private async void _locator_StatusChanged(Geolocator sender, StatusChangedEventArgs args)
+        private async void locator_StatusChanged(Geolocator sender, StatusChangedEventArgs args)
         {
             if (args.Status == PositionStatus.Ready)
             {
-                this._lastPosition = await this._locator.GetGeopositionAsync();
+                this.lastPosition = await this.locator.GetGeopositionAsync();
 
                 //// Windows phone 8.1 code only
                 //// reverse geocoding
@@ -99,10 +128,9 @@ namespace MountainBikeTracker_WP8.Services
                 //// here also it should be checked if there result isn't null and what to do in such a case
                 //string city = result.Locations[0].Address.Country;
             }
+
             if (this.OnStatusChanged != null)
-            {
                 this.OnStatusChanged(args.Status);
-            }
         }
         #endregion
     }

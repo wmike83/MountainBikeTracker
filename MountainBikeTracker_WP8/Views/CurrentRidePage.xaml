@@ -6,7 +6,6 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:viewModels="clr-namespace:MountainBikeTracker_WP8.ViewModels"
     xmlns:converters="clr-namespace:MountainBikeTracker_WP8.Helpers.Converters"
     xmlns:maps="clr-namespace:Microsoft.Phone.Maps.Controls;assembly=Microsoft.Phone.Maps"
     xmlns:maptk="clr-namespace:Microsoft.Phone.Maps.Toolkit;assembly=Microsoft.Phone.Controls.Toolkit"
@@ -17,65 +16,124 @@
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="True">
 
-    <!--<phone:PhoneApplicationPage.DataContext>
-        <viewModels:CurrentRideViewModel />
-    </phone:PhoneApplicationPage.DataContext>-->
 
     <phone:PhoneApplicationPage.Resources>
-        <converters:CurrentSpeedToForegroundConverter x:Key="CurrentSpeedToForegroundConverter" />
-
-        <Style x:Name="Views" TargetType="Grid">
-            <Setter Property="Visibility" Value="Visible" />
+        <converters:CurrentSpeedToForegroundConverter x:Key="CurrentSpeedConverter" />
+        <Style x:Key="MapStatisitcsLabel"
+               TargetType="TextBlock"
+               BasedOn="{StaticResource PhoneTextNormalStyle}">
+            <Setter Property="Margin" Value="10,0" />
         </Style>
+        <Style x:Key="MapStatisitcsRegular"
+               TargetType="TextBlock"
+               BasedOn="{StaticResource PhoneTextLargeStyle}">
+            <Setter Property="FontFamily" Value="Consolas" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+        </Style>
+        <Style x:Key="MapStatisitcsBold"
+               TargetType="TextBlock"
+               BasedOn="{StaticResource MapStatisitcsRegular}">
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="FontSize" Value="48" />
+        </Style>
+        <Storyboard x:Name="MapLockAnimation">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)" Storyboard.TargetName="imgMapIcon">
+                <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="1.2"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Storyboard.TargetName="imgMapIcon">
+                <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="1.2"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.Rotation)" Storyboard.TargetName="imgMapIcon">
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="-90"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Name="MapUnlockAnimation">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.Rotation)" Storyboard.TargetName="imgMapIcon">
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="-90"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)" Storyboard.TargetName="imgMapIcon">
+                <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="1.2"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Storyboard.TargetName="imgMapIcon">
+                <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="1.2"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <!--<Storyboard x:Name="SimpleMapOverlay">
+        	<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="SimpleView">
+        		<EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+        		<EasingDoubleKeyFrame KeyTime="0:0:1" Value="0"/>
+        	</DoubleAnimationUsingKeyFrames>
+        </Storyboard>-->
     </phone:PhoneApplicationPage.Resources>
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot"
           Background="Transparent">
+
         <!--Simple Ride View-->
         <Grid x:Name="SimpleView"
               Visibility="Visible"
-              ManipulationDelta="SimpleView_ManipulationDelta"
-              >
+              Background="Transparent"
+              ManipulationDelta="SimpleView_ManipulationDelta">
+
+
+
             <!--Add a swipe gesture to move to map view to above grid-->
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <StackPanel x:Name="stkCurrentSpeedData"
-                        Orientation="Horizontal"
                         HorizontalAlignment="Right"
                         Tap="stkCurrentSpeed_Tap"
-                        Grid.Row="0">
+                        Grid.Row="0"
+                        Background="#FFA0A0A0"
+                        Width="{Binding ActualWidth,
+                                        ElementName=SimpleView,
+                                        Mode=OneWay}" VerticalAlignment="Bottom">
+
                 <TextBlock x:Name="tblCurrentSpeed"
-                           Text="{Binding CurrentSpeed,
-                                          FallbackValue=0.0,
-                                          Mode=OneWay,
-                                          StringFormat=\{0:F1\}}"
+                           Text="{Binding CurrentSpeed, FallbackValue=00.0, StringFormat=\{0:F1\}}"
                            FontSize="200"
                            HorizontalAlignment="Right"
                            VerticalAlignment="Center"
+                           FontFamily="Consolas"
+                           TextAlignment="Right"
                            Foreground="{Binding CurrentSpeed,
-                                                Converter={StaticResource CurrentSpeedToForegroundConverter},
-                                                Mode=OneWay}" />
+                                                Converter={StaticResource CurrentSpeedConverter},
+                                                Mode=OneWay}" Margin="0,0,30,30" />
 
                 <TextBlock Text="{Binding Path=LocalizedResources.SpeedUnitsLabel,
                                           Source={StaticResource LocalizedStrings}}"
                            VerticalAlignment="Bottom"
                            HorizontalAlignment="Right"
-                           FontSize="44" />
+                           FontSize="44"
+                           TextAlignment="Right" />
             </StackPanel>
             <StackPanel x:Name="stkCurrentRideData"
-                        Grid.Row="1">
+                        Grid.Row="1"
+                        Background="Transparent">
                 <TextBlock x:Name="tblDistance"
-                           Text="{Binding CurrentTrail.Distance,
+                           Text="{Binding Distance,
                                           FallbackValue=0.00,
                                           Mode=OneWay,
                                           StringFormat=\{0:F\}}"
                            FontSize="100"
                            HorizontalAlignment="Right"
                            VerticalAlignment="Bottom"
-                           Margin="0,0,0,-16" />
+                           Margin="0,0,0,-16"
+                           FontFamily="Consolas" />
 
                 <TextBlock Text="{Binding Path=LocalizedResources.DistanceLabel,
                                           Source={StaticResource LocalizedStrings}}"
@@ -89,21 +147,23 @@
                            FontSize="75"
                            HorizontalAlignment="Right"
                            VerticalAlignment="Bottom"
-                           Margin="0,0,0,-10" />
+                           Margin="0,0,0,-10"
+                           FontFamily="Consolas" />
 
                 <TextBlock Text="{Binding Path=LocalizedResources.DurationLabel,
                                           Source={StaticResource LocalizedStrings}}"
                            HorizontalAlignment="Right" />
 
                 <TextBlock x:Name="tblAverageSpeed"
-                           Text="{Binding CurrentTrail.AverageSpeed,
+                           Text="{Binding AverageSpeed,
                                           FallbackValue=0.00,
                                           Mode=OneWay,
                                           StringFormat=\{0:F\}}"
                            FontSize="75"
                            HorizontalAlignment="Right"
                            VerticalAlignment="Bottom"
-                           Margin="0,0,0,-10" />
+                           Margin="0,0,0,-10"
+                           FontFamily="Consolas" />
 
                 <TextBlock Text="{Binding Path=LocalizedResources.AverageLabel,
                                           Source={StaticResource LocalizedStrings}}"
@@ -111,111 +171,118 @@
             </StackPanel>
         </Grid>
 
-        <!--Map Ride View-->
+        <!-- Map Ride View -->
         <Grid x:Name="MapView"
-              Visibility="Collapsed">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
+              Visibility="Collapsed"
+              Background="Transparent">
 
-            <!--ContentPanel - place additional content here-->
-            <Grid x:Name="ContentPanel"
-                  Grid.Row="1"
-                  Margin="12,0,12,0">
+            <Grid x:Name="grdMapCurrentRide"
+                  Background="Transparent">
+                <maps:Map x:Name="mapCurrentRide"
+                          CartographicMode="Terrain"
+                          PedestrianFeaturesEnabled="True"
+                          LandmarksEnabled="True"
+                          ZoomLevel="15">
+                    <maptk:MapExtensions.Children>
+                        <maptk:MapItemsControl Name="mapItems">
+                            <maptk:UserLocationMarker GeoCoordinate="{Binding CurrentLocation}" />
+                        </maptk:MapItemsControl>
+                    </maptk:MapExtensions.Children>
+                </maps:Map>
+            </Grid>
 
-                <Grid x:Name="grdMapCurrentRide">
-                    <maps:Map x:Name="mapCurrentRide"
-                              CartographicMode="Terrain"
-                              PedestrianFeaturesEnabled="True"
-                              LandmarksEnabled="True"
-                              ZoomLevel="15">
-                        <maptk:MapExtensions.Children>
-                            <maptk:MapItemsControl Name="mapItems">
-                                <maptk:UserLocationMarker GeoCoordinate="{Binding CurrentLocation}" />
-                            </maptk:MapItemsControl>
-                        </maptk:MapExtensions.Children>
-                    </maps:Map>
-                </Grid>
+            <!-- run statistics -->
+            <Grid Background="#99000000"
+                  Margin="20"
+                  VerticalAlignment="Bottom"
+                  Tap="grdMapStatistics_Tap">
+                <Grid Margin="12">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
 
-                <!-- run statistics -->
-                <Grid Background="#99000000"
-                      Margin="20"
-                      VerticalAlignment="Bottom"
-                      Tap="grdMapStatistics_Tap">
-                    <Grid Margin="12">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="40" />
-                            <RowDefinition Height="40" />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
+                    <!-- Speed -->
+                    <TextBlock Text="{Binding Path=LocalizedResources.SpeedLabel,
+                                              Source={StaticResource LocalizedStrings}}"
+                               Style="{StaticResource MapStatisitcsLabel}" />
+                    <TextBlock Text="{Binding CurrentSpeed,
+                                              FallbackValue=00.0,
+                                              StringFormat=\{0:F1\}}"
+                               Grid.Column="1"
+                               Foreground="{Binding CurrentSpeed,
+                                                    Converter={StaticResource CurrentSpeedConverter},
+                                                    Mode=OneWay}"
+                               Style="{StaticResource MapStatisitcsBold}"
+                               Width="105.6"
+                               TextAlignment="Right" />
 
-                        <!-- distance -->
-                        <TextBlock Text="{Binding Path=LocalizedResources.SpeedLabel,
-                                                  Source={StaticResource LocalizedStrings}}"
-                                   Style="{StaticResource PhoneTextNormalStyle}" />
-                        <TextBlock Text="{Binding CurrentSpeed,
-                                                  FallbackValue=00.0,
-                                                  Mode=OneWay,
-                                                  StringFormat=\{0:F1\}}"
-                                   Grid.Column="1"
-                                   HorizontalAlignment="Center"
-                                   Foreground="{Binding CurrentSpeed,
-                                                        Converter={StaticResource CurrentSpeedToForegroundConverter},
-                                                        Mode=OneWay}"
-                                   Style="{StaticResource PhoneTextLargeStyle}" />
+                    <!-- Time -->
+                    <TextBlock Text="{Binding Path=LocalizedResources.TimeLabel,
+                                              Source={StaticResource LocalizedStrings}}"
+                               Grid.Column="2"
+                               Style="{StaticResource MapStatisitcsLabel}" />
+                    <TextBlock Text="{Binding CurrentTrail.Duration,
+                                              FallbackValue=00:00:00,
+                                              Mode=OneWay,
+                                              StringFormat=\{0:hh\\:mm\\:ss\}}"
+                               Grid.Column="3"
+                               Style="{StaticResource MapStatisitcsRegular}" />
 
-                        <!-- time -->
-                        <TextBlock Text="{Binding Path=LocalizedResources.TimeLabel,
-                                                  Source={StaticResource LocalizedStrings}}"
-                                   Grid.Column="2"
-                                   Style="{StaticResource PhoneTextNormalStyle}" />
-                        <TextBlock Text="{Binding CurrentTrail.Duration,
-                                                  FallbackValue=00:00:00,
-                                                  Mode=OneWay,
-                                                  StringFormat=\{0:hh\\:mm\\:ss\}}"
-                                   Grid.Column="3"
-                                   HorizontalAlignment="Center"
-                                   Style="{StaticResource PhoneTextLargeStyle}" />
+                    <!-- Distance -->
+                    <TextBlock Text="{Binding Path=LocalizedResources.DistLabel,
+                                              Source={StaticResource LocalizedStrings}}"
+                               Grid.Row="1"
+                               Style="{StaticResource MapStatisitcsLabel}" FontFamily="Portable User Interface" />
+                    <TextBlock Text="{Binding Distance,
+                                              FallbackValue=0.00,
+                                              Mode=OneWay,
+                                              StringFormat=\{0:F\}}"
+                               Grid.Column="1"
+                               Grid.Row="1"
+                               Style="{StaticResource MapStatisitcsRegular}" />
 
-                        <!-- calories -->
-                        <TextBlock Text="{Binding Path=LocalizedResources.DistLabel,
-                                                  Source={StaticResource LocalizedStrings}}"
-                                   Grid.Row="1"
-                                   Style="{StaticResource PhoneTextNormalStyle}" />
-                        <TextBlock Text="{Binding CurrentTrail.Distance,
-                                                  FallbackValue=0.00,
-                                                  Mode=OneWay,
-                                                  StringFormat=\{0:F\}}"
-                                   Grid.Column="1"
-                                   HorizontalAlignment="Center"
-                                   Grid.Row="1"
-                                   Style="{StaticResource PhoneTextLargeStyle}" />
-
-                        <!-- pace -->
-                        <TextBlock Text="{Binding Path=LocalizedResources.AltLabel,
-                                                  Source={StaticResource LocalizedStrings}}"
-                                   Grid.Column="2"
-                                   Grid.Row="1"
-                                   Style="{StaticResource PhoneTextNormalStyle}" />
-                        <TextBlock Text="{Binding Altitude,
-                                                  FallbackValue=0.00,
-                                                  Mode=OneWay,
-                                                  StringFormat=\{0:F\}}"
-                                   Grid.Column="3"
-                                   HorizontalAlignment="Center"
-                                   Grid.Row="1"
-                                   Style="{StaticResource PhoneTextLargeStyle}" />
-
-                    </Grid>
+                    <!-- Altitude -->
+                    <TextBlock Text="{Binding Path=LocalizedResources.AltLabel,
+                                              Source={StaticResource LocalizedStrings}}"
+                               Grid.Column="2"
+                               Grid.Row="1"
+                               Style="{StaticResource MapStatisitcsLabel}" />
+                    <TextBlock Text="{Binding Altitude,
+                                              FallbackValue=0.00,
+                                              Mode=OneWay,
+                                              StringFormat=\{0:F\}}"
+                               Grid.Column="3"
+                               Grid.Row="1"
+                               Style="{StaticResource MapStatisitcsRegular}" />
                 </Grid>
             </Grid>
+
+            <Grid Background="Transparent"
+                  VerticalAlignment="Top"
+                  Margin="12">
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Left">
+                    <Image x:Name="imgMapIcon"
+                           Source="/Assets/AppBar/map.lock.png"
+                           Height="76"
+                           Width="76"
+                           Tap="imgMapIcon_Tap"
+                           RenderTransformOrigin="0.5,0.5">
+                        <Image.RenderTransform>
+                            <CompositeTransform/>
+                        </Image.RenderTransform>
+                    </Image>
+                </StackPanel>
+            </Grid>
         </Grid>
+
     </Grid>
 
 </phone:PhoneApplicationPage>

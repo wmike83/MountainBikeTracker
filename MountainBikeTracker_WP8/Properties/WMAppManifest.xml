@@ -8,7 +8,11 @@
       <Capability Name="ID_CAP_MAP" />
     </Capabilities>
     <Tasks>
-      <DefaultTask Name="_default" NavigationPage="Views/MainPage.xaml" />
+      <DefaultTask Name="_default" NavigationPage="Views/MainPage.xaml">
+        <BackgroundExecution>
+          <ExecutionType Name="LocationTracking" />
+        </BackgroundExecution>
+      </DefaultTask>
     </Tasks>
     <Tokens>
       <PrimaryToken TokenID="MountainBikeTracker_WP8Token" TaskName="_default">

@@ -8,29 +8,22 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using MountainBikeTracker_WP8.Resources;
 using MountainBikeTracker_WP8.Models;
+using MountainBikeTracker_WP8.ViewModels;
 
 namespace MountainBikeTracker_WP8
 {
     public partial class App : Application
     {
-        private static Models.AppDataStore _dataStore;
-        public static Models.AppDataStore DataStore
-        {
-            get
-            {
-                if( _dataStore == null )
-                {
-                    _dataStore = new AppDataStore();
-                }
+        #region Background Class Variable
+        public static bool RunningInBackground { get; set; }
+        public static bool ResummingFromBackground { get; set; }
+        #endregion
 
-                return _dataStore;
-            }
-        }
-
+        #region Singleton View Models
         // Store current ride as singleton
-        private static ViewModels.CurrentRideViewModel _currentRideViewModel = null;
+        private static CurrentRideViewModel _currentRideViewModel = null;
         // Property for current ride as singleton
-        public static ViewModels.CurrentRideViewModel CurrentRideViewModel
+        public static CurrentRideViewModel CurrentRideViewModel
         {
             get
             {
@@ -40,32 +33,34 @@ namespace MountainBikeTracker_WP8
                 return _currentRideViewModel;
             }
         }
+        
+        private static DetailsRideViewModel _detailsRideViewModel = null;
 
-        // Store current ride as singleton
-        private static ViewModels.GhostCurrentRideViewModel _ghostCurrentRideViewModel = null;
-        // Property for current ride as singleton
-        public static ViewModels.GhostCurrentRideViewModel GhostCurrentRideViewModel
+        public static DetailsRideViewModel DetailsRideViewModel
         {
             get
             {
-                if (_ghostCurrentRideViewModel == null)
-                    _ghostCurrentRideViewModel = new ViewModels.GhostCurrentRideViewModel();
+                if (_detailsRideViewModel == null)
+                    _detailsRideViewModel = new DetailsRideViewModel();
 
-                return _ghostCurrentRideViewModel;
+                return _detailsRideViewModel;
             }
         }
 
-        private static ViewModels.SaveCurrentRideViewModel _saveCurrentRideViewModel = null;
-        public static ViewModels.SaveCurrentRideViewModel SaveCurrentRideViewModel
+        private static HistoryViewModel _historyViewModel = null;
+
+        public static HistoryViewModel HistoryViewModel
         {
             get
             {
-                if (_saveCurrentRideViewModel == null)
-                    _saveCurrentRideViewModel = new ViewModels.SaveCurrentRideViewModel();
+                if (_historyViewModel == null)
+                    _historyViewModel = new HistoryViewModel();
 
-                return _saveCurrentRideViewModel;
+                return _historyViewModel;
             }
         }
+        #endregion
+
         /// <summary>
         /// Provides easy access to the root frame of the Phone Application.
         /// </summary>
@@ -110,16 +105,21 @@ namespace MountainBikeTracker_WP8
             }
         }
 
+        #region Application State Events
         // Code to execute when the application is launching (eg, from Start)
         // This code will not execute when the application is reactivated
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
+            ResummingFromBackground = RunningInBackground && App.CurrentRideViewModel.IsRecording;
+            RunningInBackground = false;
         }
 
         // Code to execute when the application is activated (brought to foreground)
         // This code will not execute when the application is first launched
         private void Application_Activated(object sender, ActivatedEventArgs e)
         {
+            ResummingFromBackground = RunningInBackground && App.CurrentRideViewModel.IsRecording;
+            RunningInBackground = false;
         }
 
         // Code to execute when the application is deactivated (sent to background)
@@ -132,8 +132,15 @@ namespace MountainBikeTracker_WP8
         // This code will not execute when the application is deactivated
         private void Application_Closing(object sender, ClosingEventArgs e)
         {
+            Services.ServiceLocator.GeolocatorService.Dispose();
+            RunningInBackground = false;
         }
 
+        private void Application_RunningInBackground(object sender, RunningInBackgroundEventArgs e)
+        {
+            RunningInBackground = true;
+        }
+        #endregion
         // Code to execute if a navigation fails
         private void RootFrame_NavigationFailed(object sender, NavigationFailedEventArgs e)
         {

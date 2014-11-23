@@ -194,4 +194,58 @@
   <data name="TotalDescendLabel" xml:space="preserve">
     <value>total descend</value>
   </data>
+  <data name="DeleteCurrentHistoryLabel" xml:space="preserve">
+    <value>Deleting</value>
+  </data>
+  <data name="DeleteCurrentRequest" xml:space="preserve">
+    <value>Are you sure you want to delete the ride?</value>
+  </data>
+  <data name="DeleteHistoryRequest" xml:space="preserve">
+    <value>Are you sure you want to delete</value>
+  </data>
+  <data name="DeleteRecordedRequest" xml:space="preserve">
+    <value>Are you sure you want to leave without saving?</value>
+  </data>
+  <data name="DeleteRecordingLabel" xml:space="preserve">
+    <value>Recording</value>
+  </data>
+  <data name="DeleteRecordingRequest" xml:space="preserve">
+    <value>Recording! Are you sure you want to leave?</value>
+  </data>
+  <data name="LocationConsentText" xml:space="preserve">
+    <value>LocationConsent</value>
+  </data>
+  <data name="LockAppBarButtonText" xml:space="preserve">
+    <value>lock</value>
+  </data>
+  <data name="LoginNotSuccessfulLabel" xml:space="preserve">
+    <value>Login Failure</value>
+  </data>
+  <data name="LoginNotSuccessfulMessage" xml:space="preserve">
+    <value>Could not login at this time.  Please try again later.</value>
+  </data>
+  <data name="LoginStatusMessage" xml:space="preserve">
+    <value>logging in...</value>
+  </data>
+  <data name="SaveRideFailure" xml:space="preserve">
+    <value>Could not save ride.  Try again later.</value>
+  </data>
+  <data name="StartingNewRideMessage" xml:space="preserve">
+    <value>starting new ride</value>
+  </data>
+  <data name="StartingNewRideNotSuccessfullLabel" xml:space="preserve">
+    <value>Start New Ride Failure</value>
+  </data>
+  <data name="StartingNewRideNotSuccessfullMessage" xml:space="preserve">
+    <value>Could not start a new ride at this time.  Please try again later.</value>
+  </data>
+  <data name="TimeOutLabel" xml:space="preserve">
+    <value>GPS signal</value>
+  </data>
+  <data name="TimeOutMessage" xml:space="preserve">
+    <value>not able to acquire GPS signal at this time</value>
+  </data>
+  <data name="UnlockAppBarButtonText" xml:space="preserve">
+    <value>unlock</value>
+  </data>
 </root>

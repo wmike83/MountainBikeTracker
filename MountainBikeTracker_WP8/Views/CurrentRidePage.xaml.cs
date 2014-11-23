@@ -1,36 +1,43 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows;
-using System.Windows.Navigation;
-using Microsoft.Phone.Controls;
-using Microsoft.Phone.Shell;
+﻿using Microsoft.Phone.Controls;
 using Microsoft.Phone.Maps.Controls;
-using System.Windows.Shapes;
-using System.Windows.Media;
-using System.Device.Location;
+using Microsoft.Phone.Shell;
+using MountainBikeTracker_WP8.Helpers;
 using MountainBikeTracker_WP8.Models;
 using MountainBikeTracker_WP8.Resources;
-using MountainBikeTracker_WP8.Helpers;
-using Windows.Devices.Geolocation;
-using System.Windows.Data;
+using System;
+using System.Device.Location;
+using System.Windows;
+using System.Windows.Media;
+using System.Windows.Navigation;
 
 namespace MountainBikeTracker_WP8.Views
 {
+    /// <summary>
+    /// Code behind for Current Ride Page
+    /// </summary>
     public partial class CurrentRidePage : PhoneApplicationPage
     {
         #region Fields
+        private bool lockCenterMap;
         private ApplicationBarIconButton startPauseAppBarButton;
         private ApplicationBarIconButton stopDeleteAppBarButton;
+        private ApplicationBarIconButton lockUnlockAppBarButton;
         private ApplicationBarMenuItem saveAppBarMenuItem;
 
         private MapPolyline mapCurrentRidePolyline = null;
         #endregion
 
         #region Constructor
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public CurrentRidePage()
         {
             InitializeComponent();
-            
+
+            // Flag to lock center of screen
+            this.lockCenterMap = false;
+
             // Remove auto disable
             PhoneApplicationService phoneServices = PhoneApplicationService.Current;
             phoneServices.UserIdleDetectionMode = IdleDetectionMode.Disabled;
@@ -40,32 +47,62 @@ namespace MountainBikeTracker_WP8.Views
             // Setting all the binding objects
             this.DataContext = App.CurrentRideViewModel;
 
-            // Setup Map
             this.SetupMap();
         }
         #endregion
 
         #region Map Stuff
+        /// <summary>
+        /// Setup map which creates the current ride layer
+        /// </summary>
         private void SetupMap()
         {
             this.SetupMapCurrentRideLayer();
         }
+
+        /// <summary>
+        /// Setup map current ride layer
+        /// </summary>
         private void SetupMapCurrentRideLayer()
         {
+            // Create map polyline
             this.mapCurrentRidePolyline = new MapPolyline();
+            // Connect to geo coordinate collection
             this.mapCurrentRidePolyline.Path = App.CurrentRideViewModel.CurrentTrail.Points;
+            // set visual elements
             this.mapCurrentRidePolyline.StrokeThickness = 5;
             this.mapCurrentRidePolyline.StrokeColor = Colors.Red;
 
+            // Add map to screen
             this.mapCurrentRide.MapElements.Add(this.mapCurrentRidePolyline);
         }
-        private void SetMapCenter(GeoCoordinate geoCoord)
+
+        /// <summary>
+        /// Sets maps center with animation
+        /// </summary>
+        /// <param name="geoCoord">Geo point to center map too</param>
+        private void SetMapCenterAnimated(GeoCoordinate geoCoord)
         {
             this.mapCurrentRide.Dispatcher.BeginInvoke(() =>
             {
                 this.mapCurrentRide.SetView(geoCoord,
                                             this.mapCurrentRide.ZoomLevel,
                                             MapAnimationKind.Parabolic);
+            });
+        }
+
+        /// <summary>
+        /// Sets maps center without animation
+        /// </summary>
+        /// <param name="geoCoord"></param>
+        private void SetMapCenter(GeoCoordinate geoCoord)
+        {
+            this.mapCurrentRide.Dispatcher.BeginInvoke(() =>
+            {
+                this.mapCurrentRide.SetView(geoCoord,
+                                            this.mapCurrentRide.ZoomLevel,
+                                            geoCoord.Course,
+                                            MapAnimationKind.Linear);
             });
         }
         #endregion
@@ -78,23 +115,29 @@ namespace MountainBikeTracker_WP8.Views
                 this.StartGeolocatorAndUpdateAppBar();
 
                 this.saveAppBarMenuItem.IsEnabled = false;
+                this.stkCurrentSpeedData.Background = new SolidColorBrush(Colors.Transparent);
             }
             else
             {
                 this.PauseGeolocatorAndUpdateAppBar();
 
                 this.saveAppBarMenuItem.IsEnabled = true;
+                this.stkCurrentSpeedData.Background = new SolidColorBrush(Color.FromArgb(255, 160, 160, 160));
             }
         }
         private void StartGeolocatorAndUpdateAppBar()
         {
-            ApplicationBarHelper.UpdateAppBarIconButton(this.startPauseAppBarButton,
-                                                        "/Assets/AppBar/appbar.transport.pause.rest.png",
-                                                        AppResources.PauseAppBarButtonText);
-
-            this.stopDeleteAppBarButton.IsEnabled = false;
+            this.UpdateStartAppBarToPause();
 
             App.CurrentRideViewModel.StartRecording();
+        }
+        private void UpdateStartAppBarToPause()
+        {
+            ApplicationBarHelper.UpdateAppBarIconButton(this.startPauseAppBarButton,
+                                            "/Assets/AppBar/appbar.transport.pause.rest.png",
+                                            AppResources.PauseAppBarButtonText);
+
+            this.stopDeleteAppBarButton.IsEnabled = false;
         }
         private void PauseGeolocatorAndUpdateAppBar()
         {
@@ -136,57 +179,183 @@ namespace MountainBikeTracker_WP8.Views
                                                      this.saveAppBarMenuItem_Click);
 
             this.saveAppBarMenuItem.IsEnabled = false;
+
+            this.lockUnlockAppBarButton = new ApplicationBarIconButton();
+            this.UpdateLockMap();
+            this.lockUnlockAppBarButton.Click += this.imgLockUnlock_Click;
         }
         #endregion
 
         #region Application Bar Events
         private void stopDeleteAppBarButton_Click(object sender, EventArgs e)
         {
+            var response = MessageBox.Show(AppResources.DeleteCurrentRequest,
+                                           AppResources.DeleteCurrentHistoryLabel,
+                                           MessageBoxButton.OKCancel);
+
+            if (response == MessageBoxResult.Cancel)
+                return;
+
             ApplicationBarHelper.UpdateAppBarIconButton(this.startPauseAppBarButton,
                                                         "/Assets/AppBar/appbar.transport.play.rest.png",
                                                         AppResources.StartAppBarButtonText);
 
             App.CurrentRideViewModel.ResetTrail();
-            this.SetMapCenter(MountainBikeTrail.CreateGeoCoordinate(Services.ServiceLocator.GeolocatorService.LastPoint));
+
+            this.SetMapCenterAnimated(MountainBikeTrail.CreateGeoCoordinate(
+                                      Services.ServiceLocator.GeolocatorService.LastPoint));
+
             this.saveAppBarMenuItem.IsEnabled = false;
         }
+
         private void startPauseAppBarButton_Click(object sender, EventArgs e)
         {
             this.StartPauseGeolocatorHandler();
         }
-        private void saveAppBarMenuItem_Click(object sender, EventArgs e)
+
+
+        public void AddLockImage()
         {
-            //            this.ProgressBar(true);
-            //            SystemTray.ProgressIndicator.Text = "Saving...";
+            this.lockCenterMap = true;
+            this.UpdateLockMap();
+            // Create a new button and set the text value to the localized string from AppResources.
+            this.ApplicationBar.Buttons.Insert(0, this.lockUnlockAppBarButton);
+        }
+        public void RemoveLockImage()
+        {
+            this.lockCenterMap = false;
+            this.UpdateLockMap();
 
-            //            SystemTray.ProgressIndicator.IsIndeterminate = false;
-            //            SystemTray.ProgressIndicator.IsVisible = false;
-            //            SystemTray.ProgressIndicator.Text = "";
+            if (this.ApplicationBar.Buttons.Contains(this.lockUnlockAppBarButton))
+                this.ApplicationBar.Buttons.Remove(this.lockUnlockAppBarButton);
+        }
 
-            // For now email the ride
-            //var task = new EmailComposeTask();
-            //task.To = "wmike83@yahoo.com";
-            //task.Subject = "Ride " + DateTime.Now;
-            //task.Body = App.User.CurrentRideViewModel.ToString();
-            //task.Show();
+        private void imgLockUnlock_Click(object sender, EventArgs e)
+        {
+            this.LockUnlockMap();
+        }
 
-            NavigationService.Navigate(new Uri("/Views/SaveCurrentRidePage.xaml?msg=SaveButton", UriKind.Relative));
+        private void LockUnlockMap()
+        {
+            this.lockCenterMap = !this.lockCenterMap;
+            this.UpdateLockMap();
+        }
+
+        private bool UpdateLockIcon()
+        {
+            if (this.lockCenterMap)
+            {
+                this.MapLockAnimation.Begin();
+                ApplicationBarHelper.UpdateAppBarIconButton(this.lockUnlockAppBarButton,
+                                                            "/Assets/AppBar/appbar.map.unlock.png",
+                                                            AppResources.UnlockAppBarButtonText);
+            }
+            else
+            {
+                this.MapUnlockAnimation.Begin();
+                ApplicationBarHelper.UpdateAppBarIconButton(this.lockUnlockAppBarButton,
+                                                            "/Assets/AppBar/appbar.map.lock.png",
+                                                            AppResources.LockAppBarButtonText);
+            }
+            return this.lockCenterMap;
+        }
+        private void UpdateLockMap()
+        {
+            if (this.UpdateLockIcon())
+            {
+                // Lock
+                App.CurrentRideViewModel.PropertyChanged += this.CurrentRideViewModel_PropertyChanged;
+                this.SetMapCenter(App.CurrentRideViewModel.CurrentLocation);
+                this.mapCurrentRide.Pitch = 60;
+            }
+            else
+            {
+                // Unlock
+                App.CurrentRideViewModel.PropertyChanged -= this.CurrentRideViewModel_PropertyChanged;
+                this.mapCurrentRide.Pitch = 0;
+                this.mapCurrentRide.Heading = 0;
+            }
+        }
+
+        void CurrentRideViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "CurrentLocation")
+            {
+                this.SetMapCenter(App.CurrentRideViewModel.CurrentLocation);
+            }
+        }
+
+        private async void saveAppBarMenuItem_Click(object sender, EventArgs e)
+        {
+            bool result = await App.CurrentRideViewModel.SaveRideAsync();
+            if (!result)
+            {
+                MessageBox.Show(AppResources.SaveRideFailure);
+            }
+            else
+            {
+                NavigationService.GoBack();
+            }
         }
         #endregion
 
         #region Navigation Overrides
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            if (!App.ResummingFromBackground)
+            {
+                App.CurrentRideViewModel.NavigatingTo();
+            }
+            else
+            {
+                if (e.NavigationMode == NavigationMode.New && App.CurrentRideViewModel.IsRecording)
+                    this.UpdateStartAppBarToPause();
+                App.ResummingFromBackground = false;
+            }
+
             base.OnNavigatedTo(e);
-            App.CurrentRideViewModel.ResetTrail();
-            Services.ServiceLocator.GeolocatorService.Start();
-            App.CurrentRideViewModel.StartListening();
         }
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
+            if (e.NavigationMode == NavigationMode.New && e.IsCancelable)
+                App.ResummingFromBackground = true;
+            else if (e.NavigationMode == NavigationMode.Back)
+            {
+                if (App.CurrentRideViewModel.IsRecording)
+                {
+                    var response = MessageBox.Show(AppResources.DeleteRecordingRequest,
+                                                   AppResources.DeleteRecordingLabel,
+                                                   MessageBoxButton.OKCancel);
+
+                    if (response == MessageBoxResult.OK)
+                    {
+                        App.CurrentRideViewModel.NavigatingFrom();
+                    }
+                    else
+                    {
+                        e.Cancel = true;
+                        return;
+                    }
+                }
+                else if (App.CurrentRideViewModel.CurrentTrail.Points.Count > 0)
+                {
+                    var response = MessageBox.Show(AppResources.DeleteRecordedRequest,
+                                                   AppResources.DeleteCurrentHistoryLabel,
+                                                   MessageBoxButton.OKCancel);
+
+                    if (response == MessageBoxResult.OK)
+                    {
+                        App.CurrentRideViewModel.NavigatingFrom();
+                    }
+                    else
+                    {
+                        e.Cancel = true;
+                        return;
+                    }
+                }
+            }
+
             base.OnNavigatingFrom(e);
-            Services.ServiceLocator.GeolocatorService.Pause();
-            App.CurrentRideViewModel.StopListening();
         }
         #endregion
 
@@ -200,32 +369,29 @@ namespace MountainBikeTracker_WP8.Views
             // Make simple view show
             this.SimpleView.Visibility = Visibility.Visible;
             this.MapView.Visibility = Visibility.Collapsed;
+            this.RemoveLockImage();
         }
-
-        private Point _initialPoint;
-        private void SimpleView_ManipulationStarted(object sender, System.Windows.Input.ManipulationStartedEventArgs e)
-        {
-            this._initialPoint = e.ManipulationOrigin;
-        }
-
         private void SimpleView_ManipulationDelta(object sender, System.Windows.Input.ManipulationDeltaEventArgs e)
         {
             if (!e.IsInertial)
             {
-                Point currentpoint = e.DeltaManipulation.Translation;
-                if (currentpoint.Y < 2)
+                Point currentpoint = e.CumulativeManipulation.Translation;
+                if (currentpoint.Y < -15)
                 {
                     this.SimpleView.Visibility = Visibility.Collapsed;
                     this.MapView.Visibility = Visibility.Visible;
-                    this.SetMapCenter(MountainBikeTrail.CreateGeoCoordinate(Services.ServiceLocator.GeolocatorService.LastPoint));
+                    this.SetMapCenterAnimated(MountainBikeTrail.CreateGeoCoordinate(
+                                              Services.ServiceLocator.GeolocatorService.LastPoint));
                     e.Complete();
+                    this.AddLockImage();
                 }
             }
         }
         #endregion
 
-        #region Helper Methods
-
-        #endregion
+        private void imgMapIcon_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            this.LockUnlockMap();
+        }
     }
 }

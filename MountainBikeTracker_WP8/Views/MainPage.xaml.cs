@@ -1,10 +1,11 @@
-﻿using System.Windows;
+﻿using GeoGenius.WindowsPhone8._0.Helpers;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
-using System.IO.IsolatedStorage;
-using Windows.Devices.Geolocation;
-using System;
 using MountainBikeTracker_WP8.Resources;
+using MountainBikeTracker_WP8.Services;
+using System;
+using System.Windows;
+using Windows.Devices.Geolocation;
 
 namespace MountainBikeTracker_WP8.Views
 {
@@ -14,33 +15,13 @@ namespace MountainBikeTracker_WP8.Views
         public MainPage()
         {
             InitializeComponent();
-
-            // Sample code to localize the ApplicationBar
-            //BuildLocalizedApplicationBar();
         }
-
-        // Sample code for building a localized ApplicationBar
-        //private void BuildLocalizedApplicationBar()
-        //{
-        //    // Set the page's ApplicationBar to a new instance of ApplicationBar.
-        //    ApplicationBar = new ApplicationBar();
-
-        //    // Create a new button and set the text value to the localized string from AppResources.
-        //    ApplicationBarIconButton appBarButton = new ApplicationBarIconButton(new Uri("/Assets/AppBar/appbar.add.rest.png", UriKind.Relative));
-        //    appBarButton.Text = AppResources.AppBarButtonText;
-        //    ApplicationBar.Buttons.Add(appBarButton);
-
-        //    // Create a new menu item with the localized string from AppResources.
-        //    ApplicationBarMenuItem appBarMenuItem = new ApplicationBarMenuItem(AppResources.AppBarMenuItemText);
-        //    ApplicationBar.MenuItems.Add(appBarMenuItem);
-        //}
 
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
         {
-            if (IsolatedStorageSettings.ApplicationSettings.Contains("LocationConsent") && (bool)IsolatedStorageSettings.ApplicationSettings["LocationConsent"] == true)
+            bool consent;
+            if (ServiceLocator.IsolatedStorageService.TryGetValue(AppResources.LocationConsentText, out consent) && consent)
             {
-                SystemTray.ProgressIndicator = new ProgressIndicator();
-
                 this.StartAndListenToGeoLocator();
 
                 // User has already consented
@@ -55,17 +36,16 @@ namespace MountainBikeTracker_WP8.Views
 
                 if (result == MessageBoxResult.OK)
                 {
-                    IsolatedStorageSettings.ApplicationSettings["LocationConsent"] = true;
+                    if (!ServiceLocator.IsolatedStorageService.TryUpdateValue(AppResources.LocationConsentText, true))
+                        ServiceLocator.IsolatedStorageService.TryAddValue(AppResources.LocationConsentText, true);
 
-                    SystemTray.ProgressIndicator = new ProgressIndicator();
                     this.StartAndListenToGeoLocator();
                 }
                 else
                 {
-                    IsolatedStorageSettings.ApplicationSettings["LocationConsent"] = false;
+                    if (!ServiceLocator.IsolatedStorageService.TryUpdateValue(AppResources.LocationConsentText, false))
+                        ServiceLocator.IsolatedStorageService.TryAddValue(AppResources.LocationConsentText, false);
                 }
-
-                IsolatedStorageSettings.ApplicationSettings.Save();
             }
         }
 
@@ -76,8 +56,8 @@ namespace MountainBikeTracker_WP8.Views
 
                 Services.ServiceLocator.GeolocatorService.OnStatusChanged += this.OnStatusChanged;
 
-                this.ProgressBar(true);
-                SystemTray.ProgressIndicator.Text = AppResources.AcquiringGPS;
+                ProgressBarHelper.ProgressBar(true);
+                ProgressBarHelper.ProgressBarText = AppResources.AcquiringGPS;
             }
             else
             {
@@ -93,16 +73,11 @@ namespace MountainBikeTracker_WP8.Views
                 {
                     this.btnStartNewRide.IsEnabled = true;
 
-                    this.ProgressBar(false);
+                    ProgressBarHelper.ProgressBar(false);
 
                     Services.ServiceLocator.GeolocatorService.OnStatusChanged -= this.OnStatusChanged;
                 }
             });
-        }
-        private void ProgressBar(bool isVisible)
-        {
-            SystemTray.ProgressIndicator.IsIndeterminate = isVisible;
-            SystemTray.ProgressIndicator.IsVisible = isVisible;
         }
 
         private void btnStartNewRide_Click(object sender, RoutedEventArgs e)

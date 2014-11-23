@@ -115,6 +115,60 @@ namespace MountainBikeTracker_WP8.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Deleting.
+        /// </summary>
+        public static string DeleteCurrentHistoryLabel {
+            get {
+                return ResourceManager.GetString("DeleteCurrentHistoryLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete the ride?.
+        /// </summary>
+        public static string DeleteCurrentRequest {
+            get {
+                return ResourceManager.GetString("DeleteCurrentRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete.
+        /// </summary>
+        public static string DeleteHistoryRequest {
+            get {
+                return ResourceManager.GetString("DeleteHistoryRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to leave without saving?.
+        /// </summary>
+        public static string DeleteRecordedRequest {
+            get {
+                return ResourceManager.GetString("DeleteRecordedRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Recording.
+        /// </summary>
+        public static string DeleteRecordingLabel {
+            get {
+                return ResourceManager.GetString("DeleteRecordingLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Recording! Are you sure you want to leave?.
+        /// </summary>
+        public static string DeleteRecordingRequest {
+            get {
+                return ResourceManager.GetString("DeleteRecordingRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to distance.
         /// </summary>
         public static string DistanceLabel {
@@ -142,6 +196,15 @@ namespace MountainBikeTracker_WP8.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to LocationConsent.
+        /// </summary>
+        public static string LocationConsentText {
+            get {
+                return ResourceManager.GetString("LocationConsentText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Location.
         /// </summary>
         public static string LocationLabel {
@@ -156,6 +219,42 @@ namespace MountainBikeTracker_WP8.Resources {
         public static string LocationRequest {
             get {
                 return ResourceManager.GetString("LocationRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to lock.
+        /// </summary>
+        public static string LockAppBarButtonText {
+            get {
+                return ResourceManager.GetString("LockAppBarButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Login Failure.
+        /// </summary>
+        public static string LoginNotSuccessfulLabel {
+            get {
+                return ResourceManager.GetString("LoginNotSuccessfulLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not login at this time.  Please try again later..
+        /// </summary>
+        public static string LoginNotSuccessfulMessage {
+            get {
+                return ResourceManager.GetString("LoginNotSuccessfulMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to logging in....
+        /// </summary>
+        public static string LoginStatusMessage {
+            get {
+                return ResourceManager.GetString("LoginStatusMessage", resourceCulture);
             }
         }
         
@@ -205,6 +304,15 @@ namespace MountainBikeTracker_WP8.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Could not save ride.  Try again later..
+        /// </summary>
+        public static string SaveRideFailure {
+            get {
+                return ResourceManager.GetString("SaveRideFailure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to speed.
         /// </summary>
         public static string SpeedLabel {
@@ -228,6 +336,33 @@ namespace MountainBikeTracker_WP8.Resources {
         public static string StartAppBarButtonText {
             get {
                 return ResourceManager.GetString("StartAppBarButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to starting new ride.
+        /// </summary>
+        public static string StartingNewRideMessage {
+            get {
+                return ResourceManager.GetString("StartingNewRideMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start New Ride Failure.
+        /// </summary>
+        public static string StartingNewRideNotSuccessfullLabel {
+            get {
+                return ResourceManager.GetString("StartingNewRideNotSuccessfullLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not start a new ride at this time.  Please try again later..
+        /// </summary>
+        public static string StartingNewRideNotSuccessfullMessage {
+            get {
+                return ResourceManager.GetString("StartingNewRideNotSuccessfullMessage", resourceCulture);
             }
         }
         
@@ -259,6 +394,24 @@ namespace MountainBikeTracker_WP8.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to GPS signal.
+        /// </summary>
+        public static string TimeOutLabel {
+            get {
+                return ResourceManager.GetString("TimeOutLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to not able to acquire GPS signal at this time.
+        /// </summary>
+        public static string TimeOutMessage {
+            get {
+                return ResourceManager.GetString("TimeOutMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to total ascend.
         /// </summary>
         public static string TotalAscendLabel {
@@ -273,6 +426,15 @@ namespace MountainBikeTracker_WP8.Resources {
         public static string TotalDescendLabel {
             get {
                 return ResourceManager.GetString("TotalDescendLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to unlock.
+        /// </summary>
+        public static string UnlockAppBarButtonText {
+            get {
+                return ResourceManager.GetString("UnlockAppBarButtonText", resourceCulture);
             }
         }
         
